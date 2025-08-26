@@ -1,0 +1,41 @@
+/* Importation de la police d'écriture */
+
+@import url('https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&display=swap');
+
+.bg-admin {
+  background-color: lightblue;
+}
+
+body {
+  font-family: Delius;
+  background-color: white;
+}
+
+.taille-img {
+  max-width: 100%;
+  max-height: auto;
+}
+
+/* .cat {
+  height: 50px;
+  width: 175px;
+} */
+
+.div-photo {
+  width: 90%;
+  height: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 2rem;
+  flex-wrap: wrap;
+  text-align: center;
+  justify-self: center;
+}
+
+.taille-police-btns {
+  font-size: xx-large;
+}
+
+.border-btns {
+  border: 3px solid black;
+}
