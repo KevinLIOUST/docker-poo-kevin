@@ -58,7 +58,7 @@ class Character
     }
 
     // Méthode pour récupérer les points de mana du personnage
-    public function getMana()
+    public function getPointsDeMana()
     {
         return $this->pointsDeMana;
     }

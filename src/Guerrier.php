@@ -113,6 +113,14 @@ class Guerrier extends Character
         return $this->getDegatsArme();
     }
 
+    // Méthode pour attaquer en tenant compte de la résistance avec le bouclier
+    public function getDamage($damage)
+    {
+        $pointsDeVie = $this->getPointsDeVie();
+        $damageAvecBouclier = -$this->getDefenceBouclier() + $damage;
+        return $this->setPointsDeVie($pointsDeVie - $damageAvecBouclier);
+    }
+
     // Constructeur pour construire un nouveau guerrier avec ses caractéristiques pour le combat
     public function __construct(int $pointsDeVie, int $pointsDeMana, string $arme, int $degatsArme, string $nomBouclier, int $defenseBouclier)
     {
