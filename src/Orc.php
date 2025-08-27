@@ -36,7 +36,7 @@ class Orc extends Character
     // Fonction pour que l'orc puisse attaquer entre une valeur min et max inclus
     public function attack()
     {
-        $nbAleatoire = mt_rand($this->damageMin, $this->damageMax);
+        $nbAleatoire = mt_rand($this->getDamageMin(), $this->getDamageMax());
         return $nbAleatoire;
     }
 

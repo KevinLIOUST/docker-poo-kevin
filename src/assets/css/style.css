@@ -1,13 +1,18 @@
 /* Importation de la police d'écriture */
 
-@import url('https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&display=swap');
+@font-face {
+  font-family: 'Enchanted Land';
+  src: url('../font/Enchanted\ Land.otf') format('OpenType');
+  /* font-weight: normal;
+  font-style: normal; */
+}
 
 /* .bg-admin {
   background-color: lightblue;
 } */
 
 body {
-  font-family: Delius;
+  font-family: 'Enchanted Land', Arial, Helvetica, sans-serif;
   background-color: white;
 }
 

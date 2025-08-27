@@ -9,21 +9,6 @@ session_start();
 // session_unset();
 // session_destroy();
 
-// $erza = new Character(10000, 10000);
-// var_dump($erza);
-
-// $lucy = new Character(10000, 10000);
-// var_dump($lucy);
-
-// $kevin = new Guerrier(10000, 10000, "Ultima", 100, "Master Shield", 19);
-// var_dump($kevin);
-
-// $orc = new Orc(10000, 10000, 100, 200);
-// var_dump($orc);
-
-// $audrey = new Guerrier("Audrey", "DUVAL", 10000, "Ultima", 100, "Master Shield", 19);
-// var_dump($audrey);
-
 // On regarde si la méthode est bien POST pour envoyer des données au serveur
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $errors = [];
@@ -33,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!isset($_SESSION["guerrier"])) {
 
             $errors['pasGuerrier'] = "Il y a pas de Guerrier dans le jeu, il sera crée maintenant";
-            $_SESSION["guerrier"] = new Guerrier(2000, 500, "Ultima", 250, "Bouclier Ultime", 600);
+            $_SESSION["guerrier"] = new Guerrier(2000, 500, "Ultima", 250, "Bouclier Ultime", 200);
 
         } else {
             $errors['ouiGuerrier'] = "Le Guerrier existe déjà ! :) Pas besoin de le recréer ! :)";
@@ -87,13 +72,88 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     } else {
-        echo "Pas bouton cliqué";
+        $errors['pasBtnClique'] = "Pas bouton cliqué";
     }
 
-    // var_dump($errors);
+    // Algo de combat
+
+    if (!isset($_SESSION['commencer'])) {
+        $nbAleatoireGuerrier = mt_rand(1, 6);
+        $nbAleatoireOrc = mt_rand(1, 6);
+
+        if ($nbAleatoireGuerrier > $nbAleatoireOrc) {
+
+            $_SESSION['commencer'] = 'guerrier';
+
+        } elseif ($nbAleatoireGuerrier < $nbAleatoireOrc) {
+
+            $_SESSION['commencer'] = 'orc';
+
+        } elseif ($nbAleatoireGuerrier == $nbAleatoireOrc) {
+
+            while ($nbAleatoireGuerrier == $nbAleatoireOrc) {
+
+                $nbAleatoireGuerrier = mt_rand(1, 6);
+                $nbAleatoireOrc = mt_rand(1, 6);
+
+                if ($nbAleatoireGuerrier > $nbAleatoireOrc) {
+
+                    $_SESSION['commencer'] = 'guerrier';
+
+                } elseif ($nbAleatoireGuerrier < $nbAleatoireOrc) {
+                    $_SESSION['commencer'] = 'orc';
+                }
+            }
+        }
+    } else {
+        if (isset($_POST['combat'])) {
+            // Si les points de vie de l'Orc ou du Guerrier sont plus grands que 0, on continue le combat
+            if ($_SESSION['guerrier']->getPointsDeVie() > 0 || $_SESSION['orc']->getPointsDeVie() > 0) {
+
+                // On regarde c'est qui qui commence
+                if ($_SESSION['commencer'] == "guerrier") {
+                    // Le Guerrier va attaquer l'Orc
+                    echo "Le Guerrier attaque avec une frappe de " . $_SESSION['guerrier']->attack() . " !";
+                    $_SESSION['orc']->setPointsDeVie($_SESSION['orc']->getPointsDeVie() - $_SESSION['guerrier']->attack());
+                    echo "L'Orc a perdu " . $_SESSION['guerrier']->attack() . " points de vie ! :) " . "Il lui reste " . $_SESSION['orc']->getPointsDeVie() . " points de vie ! :)";
+                    $_SESSION['commencer'] = "orc";
+                    if ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0) {
+                        echo "Le Combat Légendaire est terminé";
+                        if ($_SESSION['guerrier']->getPointsDeVie() <= 0) {
+                            echo "L'Orc a gagné ! :)";
+                        } elseif ($_SESSION['orc']->getPointsDeVie() <= 0) {
+                            echo "Le Guerrier a gagné ! :)";
+                        } else {
+                            echo "Egalité ! :)";
+                        }
+                    }
+                } else {
+                    // L'Orc va attaquer le Guerrier
+                    $attackAleatoire = $_SESSION['orc']->attack();
+                    echo "L'Orc attaque avec une frappe de " . $attackAleatoire . " !";
+                    // $_SESSION['guerrier']->setPointsDeVie($_SESSION['guerrier']->getPointsDeVie() - $_SESSION['orc']->attack());
+                    $_SESSION["guerrier"]->setPointsDeVie($_SESSION['guerrier']->getPointsDeVie() - $_SESSION['guerrier']->getDamage($_SESSION['orc']->attack()));
+                    echo "Le Guerrier a perdu " . $attackAleatoire - $_SESSION['guerrier']->getDefenceBouclier() . " points de vie ! :) " . "Il lui reste " . $_SESSION['guerrier']->getPointsDeVie() . " points de vie ! :)";
+                    $_SESSION['commencer'] = "guerrier";
+                    if ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0) {
+                        echo "Le Combat Légendaire est terminé";
+                        if ($_SESSION['guerrier']->getPointsDeVie() <= 0) {
+                            echo "L'Orc a gagné ! :)";
+                        } elseif ($_SESSION['orc']->getPointsDeVie() <= 0) {
+                            echo "Le Guerrier a gagné ! :)";
+                        } else {
+                            echo "Egalité ! :)";
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    var_dump($errors);
 }
-// var_dump($_POST);
-// var_dump($_SESSION);
+var_dump($_POST);
+var_dump($_SESSION);
 
 // $_SESSION["guerrier"]->getDamage(800);
 // var_dump($_SESSION["guerrier"]);
@@ -132,6 +192,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="d-flex justify-content-center">
             <input class="btn btns mx-3 ms-3 mt-5 text-white" type="submit" name="commencer" id="commencer"
                 value="Qui commence ?">
+        </div>
+        <div class="d-flex justify-content-center">
+            <input class="btn btns mx-3 ms-3 mt-5 text-white" type="submit" name="combat" id="combat" value="Combat !">
         </div>
     </form>
 </body>
