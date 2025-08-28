@@ -9,6 +9,50 @@ session_start();
 // session_unset();
 // session_destroy();
 
+// Fonction pour savoir qui va gagner la partie
+function quiVaGagner()
+{
+    if ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0) {
+        echo "Le Combat Légendaire est terminé";
+        if ($_SESSION['guerrier']->getPointsDeVie() <= 0) {
+            echo "L'Orc a gagné ! :)";
+        } elseif ($_SESSION['orc']->getPointsDeVie() <= 0) {
+            echo "Le Guerrier a gagné ! :)";
+        } else {
+            echo "Egalité ! :)";
+        }
+    }
+}
+
+// Fonction pour lancer le Dé pour savoir qui va commencer la partie
+function lancerLeDe()
+{
+    $nbAleatoireGuerrier = mt_rand(1, 6);
+    $nbAleatoireOrc = mt_rand(1, 6);
+
+    if ($nbAleatoireGuerrier > $nbAleatoireOrc) {
+
+        $_SESSION['commencer'] = 'guerrier';
+    } elseif ($nbAleatoireGuerrier < $nbAleatoireOrc) {
+
+        $_SESSION['commencer'] = 'orc';
+    } elseif ($nbAleatoireGuerrier == $nbAleatoireOrc) {
+
+        while ($nbAleatoireGuerrier == $nbAleatoireOrc) {
+
+            $nbAleatoireGuerrier = mt_rand(1, 6);
+            $nbAleatoireOrc = mt_rand(1, 6);
+
+            if ($nbAleatoireGuerrier > $nbAleatoireOrc) {
+
+                $_SESSION['commencer'] = 'guerrier';
+            } elseif ($nbAleatoireGuerrier < $nbAleatoireOrc) {
+                $_SESSION['commencer'] = 'orc';
+            }
+        }
+    }
+}
+
 // On regarde si la méthode est bien POST pour envoyer des données au serveur
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $errors = [];
@@ -19,57 +63,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $errors['pasGuerrier'] = "Il y a pas de Guerrier dans le jeu, il sera crée maintenant";
             $_SESSION["guerrier"] = new Guerrier(2000, 500, "Ultima", 250, "Bouclier Ultime", 200);
-
         } else {
             $errors['ouiGuerrier'] = "Le Guerrier existe déjà ! :) Pas besoin de le recréer ! :)";
         }
-
     } elseif (isset($_POST["orc"])) {
 
         if (!isset($_SESSION["orc"])) {
 
             $errors['pasOrc'] = "Il y a pas d'Orc dans le jeu, il sera crée maintenant";
             $_SESSION["orc"] = new Orc(1500, 200, 100, 400);
-
         } else {
             $errors['ouiOrc'] = "L'orc existe déjà ! :) Pas besoin de le recréer ! :)";
         }
-
     } elseif (isset($_POST["commencer"])) {
 
         if (!isset($_SESSION["orc"]) || !isset($_SESSION["guerrier"])) {
 
             $errors['peutPasCommencer'] = "La partie peut pas commencer sans le Guerrier et l'Orc !";
-
         } elseif (isset($_SESSION['guerrier']) && isset($_SESSION['orc'])) {
 
-            $nbAleatoireGuerrier = mt_rand(1, 6);
-            $nbAleatoireOrc = mt_rand(1, 6);
-
-            if ($nbAleatoireGuerrier > $nbAleatoireOrc) {
-
-                $_SESSION['commencer'] = 'guerrier';
-
-            } elseif ($nbAleatoireGuerrier < $nbAleatoireOrc) {
-
-                $_SESSION['commencer'] = 'orc';
-
-            } elseif ($nbAleatoireGuerrier == $nbAleatoireOrc) {
-
-                while ($nbAleatoireGuerrier == $nbAleatoireOrc) {
-
-                    $nbAleatoireGuerrier = mt_rand(1, 6);
-                    $nbAleatoireOrc = mt_rand(1, 6);
-
-                    if ($nbAleatoireGuerrier > $nbAleatoireOrc) {
-
-                        $_SESSION['commencer'] = 'guerrier';
-
-                    } elseif ($nbAleatoireGuerrier < $nbAleatoireOrc) {
-                        $_SESSION['commencer'] = 'orc';
-                    }
-                }
-            }
+            lancerLeDe();
         }
     } else {
         $errors['pasBtnClique'] = "Pas bouton cliqué";
@@ -77,75 +90,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Algo de combat
 
-    if (!isset($_SESSION['commencer'])) {
-        $nbAleatoireGuerrier = mt_rand(1, 6);
-        $nbAleatoireOrc = mt_rand(1, 6);
+    if (isset($_POST['combat'])) {
+        // Si les points de vie de l'Orc ou du Guerrier sont plus grands que 0, on continue le combat
+        if ($_SESSION['guerrier']->getPointsDeVie() > 0 || $_SESSION['orc']->getPointsDeVie() > 0) {
 
-        if ($nbAleatoireGuerrier > $nbAleatoireOrc) {
-
-            $_SESSION['commencer'] = 'guerrier';
-
-        } elseif ($nbAleatoireGuerrier < $nbAleatoireOrc) {
-
-            $_SESSION['commencer'] = 'orc';
-
-        } elseif ($nbAleatoireGuerrier == $nbAleatoireOrc) {
-
-            while ($nbAleatoireGuerrier == $nbAleatoireOrc) {
-
-                $nbAleatoireGuerrier = mt_rand(1, 6);
-                $nbAleatoireOrc = mt_rand(1, 6);
-
-                if ($nbAleatoireGuerrier > $nbAleatoireOrc) {
-
-                    $_SESSION['commencer'] = 'guerrier';
-
-                } elseif ($nbAleatoireGuerrier < $nbAleatoireOrc) {
-                    $_SESSION['commencer'] = 'orc';
-                }
-            }
-        }
-    } else {
-        if (isset($_POST['combat'])) {
-            // Si les points de vie de l'Orc ou du Guerrier sont plus grands que 0, on continue le combat
-            if ($_SESSION['guerrier']->getPointsDeVie() > 0 || $_SESSION['orc']->getPointsDeVie() > 0) {
-
-                // On regarde c'est qui qui commence
-                if ($_SESSION['commencer'] == "guerrier") {
-                    // Le Guerrier va attaquer l'Orc
-                    echo "Le Guerrier attaque avec une frappe de " . $_SESSION['guerrier']->attack() . " !";
-                    $_SESSION['orc']->setPointsDeVie($_SESSION['orc']->getPointsDeVie() - $_SESSION['guerrier']->attack());
-                    echo "L'Orc a perdu " . $_SESSION['guerrier']->attack() . " points de vie ! :) " . "Il lui reste " . $_SESSION['orc']->getPointsDeVie() . " points de vie ! :)";
-                    $_SESSION['commencer'] = "orc";
-                    if ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0) {
-                        echo "Le Combat Légendaire est terminé";
-                        if ($_SESSION['guerrier']->getPointsDeVie() <= 0) {
-                            echo "L'Orc a gagné ! :)";
-                        } elseif ($_SESSION['orc']->getPointsDeVie() <= 0) {
-                            echo "Le Guerrier a gagné ! :)";
-                        } else {
-                            echo "Egalité ! :)";
-                        }
-                    }
-                } else {
-                    // L'Orc va attaquer le Guerrier
-                    $attackAleatoire = $_SESSION['orc']->attack();
-                    echo "L'Orc attaque avec une frappe de " . $attackAleatoire . " !";
-                    // $_SESSION['guerrier']->setPointsDeVie($_SESSION['guerrier']->getPointsDeVie() - $_SESSION['orc']->attack());
-                    $_SESSION["guerrier"]->setPointsDeVie($_SESSION['guerrier']->getPointsDeVie() - $_SESSION['guerrier']->getDamage($_SESSION['orc']->attack()));
-                    echo "Le Guerrier a perdu " . $attackAleatoire - $_SESSION['guerrier']->getDefenceBouclier() . " points de vie ! :) " . "Il lui reste " . $_SESSION['guerrier']->getPointsDeVie() . " points de vie ! :)";
-                    $_SESSION['commencer'] = "guerrier";
-                    if ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0) {
-                        echo "Le Combat Légendaire est terminé";
-                        if ($_SESSION['guerrier']->getPointsDeVie() <= 0) {
-                            echo "L'Orc a gagné ! :)";
-                        } elseif ($_SESSION['orc']->getPointsDeVie() <= 0) {
-                            echo "Le Guerrier a gagné ! :)";
-                        } else {
-                            echo "Egalité ! :)";
-                        }
-                    }
-                }
+            // On regarde c'est qui qui commence
+            if ($_SESSION['commencer'] == "guerrier") {
+                // Le Guerrier va attaquer l'Orc
+                echo "Le Guerrier attaque avec une frappe de " . $_SESSION['guerrier']->attack() . " !";
+                $_SESSION['orc']->setPointsDeVie($_SESSION['orc']->getPointsDeVie() - $_SESSION['guerrier']->attack());
+                echo "L'Orc a perdu " . $_SESSION['guerrier']->attack() . " points de vie ! :) " . "Il lui reste " . $_SESSION['orc']->getPointsDeVie() . " points de vie ! :)";
+                $_SESSION['commencer'] = "orc";
+                quiVaGagner();
+            } else {
+                // L'Orc va attaquer le Guerrier
+                $attackAleatoire = $_SESSION['orc']->attack();
+                echo "L'Orc attaque avec une frappe de " . $attackAleatoire . " !";
+                $degats = $_SESSION['guerrier']->getDamage($attackAleatoire);
+                echo "Le Guerrier a perdu " . $degats . " points de vie ! :) " . "Il lui reste " . $_SESSION['guerrier']->getPointsDeVie() . " points de vie ! :)";
+                $_SESSION['commencer'] = "guerrier";
+                quiVaGagner();
             }
         }
     }

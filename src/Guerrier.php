@@ -117,20 +117,15 @@ class Guerrier extends Character
     public function getDamage($damage)
     {
         // tentative de correction
-        $vrais_degats = max(0, $damage - $this->getDefenceBouclier());
-        $nouvelle_vie = $this->getPointsDeVie() - $vrais_degats;
-        $this->setPointsDeVie($nouvelle_vie);
+        $vrais_degats = $damage - $this->getDefenceBouclier();
 
-
-        // $pointsDeVie = $this->getPointsDeVie();
-        // $damageAvecBouclier = -$this->getDefenceBouclier() + $damage;
-        // return $this->setPointsDeVie($pointsDeVie - $damageAvecBouclier);
-
-        // if ($this->getDefenceBouclier() - $damage >= 0) {
-        //     return 0;
-        // } else {
-        //     return $this->setPointsDeVie($this->getPointsDeVie() - ($damage - $this->getDefenceBouclier()));
-        // }
+        if ($vrais_degats < 0) {
+            return 0;
+        } else {
+            $nouvelle_vie = $this->getPointsDeVie() - $vrais_degats;
+            $this->setPointsDeVie($nouvelle_vie);
+            return $vrais_degats;
+        }
     }
 
     // Constructeur pour construire un nouveau guerrier avec ses caractéristiques pour le combat
@@ -145,4 +140,3 @@ class Guerrier extends Character
         $this->setDefenseBouclier($defenseBouclier);
     }
 }
-?>
