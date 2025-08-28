@@ -15,12 +15,12 @@ body {
 
 /* Mode jour */
 .mode-jour{
-  background-color: black;
+  background-color: white;
 }
 
 /* Mode nuit */
 .mode-nuit {
-  background-color: white;
+  background-color: black;
 }
 
 /* Pour le titre de jour */

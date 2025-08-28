@@ -143,8 +143,15 @@ var_dump($_POST);
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
-<body>
-    <div class="d-flex align-items-center">
+<body class="
+<?php if (isset($_POST['modeJourNuit'])) { ?>
+    <?php if ($_POST['modeJourNuit'] == 'Mode Nuit') { ?>
+         mode-nuit
+    <?php } else { ?>
+        mode-jour
+    <?php } ?>
+<?php } ?>mode-jour">
+    <div class=" d-flex align-items-center">
         <h1 class="mt-5 ms-5
         <?php if (isset($_POST['modeJourNuit'])) { ?>
             <?php if ($_POST['modeJourNuit'] == 'Mode Nuit') { ?>
@@ -152,17 +159,17 @@ var_dump($_POST);
             <?php } else { ?>
                 titre-jour
             <?php } ?>
-        <?php } ?>">Combat Légendaire !!!!</h1>
+        <?php } ?>titre-jour">Combat Légendaire !!!!</h1>
         <div class="w-100 d-flex justify-content-end align-items-center">
             <form action="" method="POST">
                 <input class="btn btns-jour mx-5 text-white" type="submit" name="modeJourNuit" id="modeJourNuit"
-                <?php if (isset($_POST['modeJourNuit'])) { ?>
+                    <?php if (isset($_POST['modeJourNuit'])) { ?>
                     <?php if ($_POST['modeJourNuit'] == 'Mode Nuit') { ?>
-                        value='Mode Jour';
+                    value='Mode Jour' ;
                     <?php } else { ?>
-                        value='Mode Nuit';
+                    value='Mode Nuit' ;
                     <?php } ?>
-                <?php } ?>value="Mode Nuit">
+                    <?php } ?>value="Mode Nuit">
             </form>
         </div>
     </div>
