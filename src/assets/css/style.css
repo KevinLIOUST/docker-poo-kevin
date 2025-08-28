@@ -7,24 +7,40 @@
   font-style: normal; */
 }
 
-/* .bg-admin {
-  background-color: lightblue;
-} */
-
+/* Pour toute la page */
 body {
   font-family: 'Enchanted Land', Arial, Helvetica, sans-serif;
   background-color: white;
 }
 
-/* .taille-img {
-  max-width: 100%;
-  max-height: auto;
-} */
+/* Mode jour */
+.mode-jour{
+  background-color: black;
+}
 
-/* .cat {
-  height: 50px;
-  width: 175px;
-} */
+/* Mode nuit */
+.mode-nuit {
+  background-color: white;
+}
+
+/* Pour le titre de jour */
+.titre-jour {
+  width: 25rem;
+  font-size: 50px;
+}
+
+/* Pour le titre de nuit */
+.titre-nuit {
+  width: 20rem;
+  font-size: 50px;
+  color: white;
+}
+
+/* Pour la taille de l'image (Scène de combat) */
+.taille-img {
+  width: 1800px;
+  height: auto;
+}
 
 /* .div-photo {
   width: 90%;
@@ -37,13 +53,34 @@ body {
   justify-self: center;
 } */
 
-.btns {
+/* Les boutons du mode jour */
+
+.btns-jour {
+  width: 200px;
+  height: auto;
   font-size: xx-large;
   border: 3px solid black;
   background-color: brown;
 }
 
-.btns:hover {
+/* Quand l'utilisateur passe sa souris sur les boutons */
+.btns-jour:hover {
   background-color: rgb(152, 101, 101);
   border: 3px solid black;
+}
+
+/* Les boutons du mode nuit */
+
+.btns-nuit {
+  width: 200px;
+  height: auto;
+  font-size: xx-large;
+  border: 3px solid white;
+  background-color: brown;
+}
+
+/* Quand l'utilisateur passe sa souris sur les boutons */
+.btns-nuit:hover {
+  background-color: rgb(152, 101, 101);
+  border: 3px solid white;
 }

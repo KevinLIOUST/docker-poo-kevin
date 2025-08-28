@@ -114,10 +114,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    var_dump($errors);
+    // var_dump($errors);
 }
 var_dump($_POST);
-var_dump($_SESSION);
+// var_dump($_SESSION);
 
 // $_SESSION["guerrier"]->getDamage(800);
 // var_dump($_SESSION["guerrier"]);
@@ -144,21 +144,37 @@ var_dump($_SESSION);
 </head>
 
 <body>
+    <div class="d-flex align-items-center">
+        <h1 class="mt-5 ms-5
+        <?php if (isset($_POST['modeJourNuit'])) {
+            if ($_POST['modeJourNuit'] == 'Mode Nuit') {
+                'titre-nuit';
+            } else {
+                'titre-jour';
+            }
+        } ?>">Combat Légendaire !!!!</h1>
+        <div class="w-100 d-flex justify-content-end align-items-center">
+            <form action="" method="POST">
+                <input class="btn btns-jour mx-5 text-white" type="submit" name="modeJourNuit" id="modeJourNuit"
+                <?php if (isset($_POST['modeJourNuit'])) { ?>
+                    <?php if ($_POST['modeJourNuit'] == 'Mode Nuit') { ?>
+                        value='Mode Jour';
+                    <?php } else { ?>
+                        value='Mode Nuit';
+                    <?php } ?>
+                <?php } ?>">
+            </form>
+        </div>
+    </div>
     <div class="d-flex justify-content-center">
-        <h1>Combat Légendaire !!!!</h1>
+        <img class="taille-img" src="assets/img/Maison Moyen Age.png" alt="assets/img/Maison Moyen Age.png">
     </div>
     <form action="" method="POST">
         <div class="d-flex justify-content-center">
-            <input class="btn btns mx-3 ms-3 mt-3 text-white" type="submit" name="guerrier" id="guerrier"
-                value="Créer Guerrier">
-            <input class="btn btns mx-3 ms-3 mt-3 text-white" type="submit" name="orc" id="orc" value="Créer Orc">
-        </div>
-        <div class="d-flex justify-content-center">
-            <input class="btn btns mx-3 ms-3 mt-5 text-white" type="submit" name="commencer" id="commencer"
-                value="Qui commence ?">
-        </div>
-        <div class="d-flex justify-content-center">
-            <input class="btn btns mx-3 ms-3 mt-5 text-white" type="submit" name="combat" id="combat" value="Combat !">
+            <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier">
+            <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="orc" id="orc" value="Créer Orc">
+            <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?">
+            <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="combat" id="combat" value="Combat !">
         </div>
     </form>
 </body>
