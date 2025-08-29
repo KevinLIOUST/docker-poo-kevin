@@ -84,40 +84,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             lancerLeDe();
         }
-    } else {
-        $errors['pasBtnClique'] = "Pas bouton cliqué";
     }
 
     // Algo de combat
 
     if (isset($_POST['combat'])) {
-        // Si les points de vie de l'Orc ou du Guerrier sont plus grands que 0, on continue le combat
-        if ($_SESSION['guerrier']->getPointsDeVie() > 0 || $_SESSION['orc']->getPointsDeVie() > 0) {
+        if (!isset($_SESSION['guerrier']) || !isset($_SESSION['orc']) || !isset($_SESSION['commencer'])) {
+            $errors['pasCommencerCombat'] = 'Le combat peut pas commencer sans savoir qui commence, ou s\'il manque quelqu\'un !';
+        } else {
+            // Si les points de vie de l'Orc ou du Guerrier sont plus grands que 0, on continue le combat
+            if ($_SESSION['guerrier']->getPointsDeVie() > 0 || $_SESSION['orc']->getPointsDeVie() > 0) {
 
-            // On regarde c'est qui qui commence
-            if ($_SESSION['commencer'] == "guerrier") {
-                // Le Guerrier va attaquer l'Orc
-                echo "Le Guerrier attaque avec une frappe de " . $_SESSION['guerrier']->attack() . " !";
-                $_SESSION['orc']->setPointsDeVie($_SESSION['orc']->getPointsDeVie() - $_SESSION['guerrier']->attack());
-                echo "L'Orc a perdu " . $_SESSION['guerrier']->attack() . " points de vie ! :) " . "Il lui reste " . $_SESSION['orc']->getPointsDeVie() . " points de vie ! :)";
-                $_SESSION['commencer'] = "orc";
-                quiVaGagner();
-            } else {
-                // L'Orc va attaquer le Guerrier
-                $attackAleatoire = $_SESSION['orc']->attack();
-                echo "L'Orc attaque avec une frappe de " . $attackAleatoire . " !";
-                $degats = $_SESSION['guerrier']->getDamage($attackAleatoire);
-                echo "Le Guerrier a perdu " . $degats . " points de vie ! :) " . "Il lui reste " . $_SESSION['guerrier']->getPointsDeVie() . " points de vie ! :)";
-                $_SESSION['commencer'] = "guerrier";
-                quiVaGagner();
+                // On regarde c'est qui qui commence
+                if ($_SESSION['commencer'] == "guerrier") {
+                    // Le Guerrier va attaquer l'Orc
+                    echo "Le Guerrier attaque avec une frappe de " . $_SESSION['guerrier']->attack() . " !";
+                    $_SESSION['orc']->setPointsDeVie($_SESSION['orc']->getPointsDeVie() - $_SESSION['guerrier']->attack());
+                    echo "L'Orc a perdu " . $_SESSION['guerrier']->attack() . " points de vie ! :) " . "Il lui reste " . $_SESSION['orc']->getPointsDeVie() . " points de vie ! :)";
+                    $_SESSION['commencer'] = "orc";
+                    quiVaGagner();
+                } else {
+                    // L'Orc va attaquer le Guerrier
+                    $attackAleatoire = $_SESSION['orc']->attack();
+                    echo "L'Orc attaque avec une frappe de " . $attackAleatoire . " !";
+                    $degats = $_SESSION['guerrier']->getDamage($attackAleatoire);
+                    echo "Le Guerrier a perdu " . $degats . " points de vie ! :) " . "Il lui reste " . $_SESSION['guerrier']->getPointsDeVie() . " points de vie ! :)";
+                    $_SESSION['commencer'] = "guerrier";
+                    quiVaGagner();
+                }
             }
         }
     }
 
-    // var_dump($errors);
+    var_dump($errors);
 }
 var_dump($_POST);
-// var_dump($_SESSION);
+var_dump($_SESSION);
 
 // $_SESSION["guerrier"]->getDamage(800);
 // var_dump($_SESSION["guerrier"]);
@@ -181,44 +183,73 @@ var_dump($_POST);
         </div>
     </div>
     <div class="div-img-fond-combat">
-        <div class="d-flex justify-content-center fs-1 overlay">
-            <p>Guerrier</p>
-        </div>
-        <div class="d-flex justify-content-center fs-1 overlay">
-            <p>Orc</p>
-        </div>
+        <?php if (isset($_SESSION['guerrier'])) { ?>
+            <div class="d-block fs-3 overlay">
+                <p class="text-center">Guerrier</p>
+                <div class="d-flex justify-content-center mt-5">
+                    <img src="assets/img/Chibi_Guerrier_6.png" alt="assets/img/Chibi_Guerrier_6.png">
+                </div>
+                <div class="d-flex justify-content-center mt-5">
+                    <div class="perso-informations mt-5">
+                        <div class="d-flex justify-content-center align-items-center px-5 ps-5">
+                            <img class="text-white" src="assets/img/heart_3.png" alt="assets/img/heart_3.png">
+                            <p class="ms-3 mx-3 mt-3"><?= $_SESSION['guerrier']->getPointsDeVie() ?></p>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center px-5 ps-5">
+                            <img class="text-white" src="assets/img/magic_2.png" alt="assets/img/magic_2.png">
+                            <p class="ms-3 mx-3 mt-3"><?= $_SESSION['guerrier']->getPointsDeMana() ?></p>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center px-5 ps-5">
+                            <img class="text-white" src="assets/img/shield_2.png" alt="assets/img/shield_2.png">
+                            <p class="ms-3 mx-3 mt-3"><?= $_SESSION['guerrier']->getDefenceBouclier() ?></p>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center px-5 ps-5">
+                            <img class="text-white" src="assets/img/sword_2.png" alt="assets/img/sword_2.png">
+                            <p class="ms-3 mx-3 mt-3"><?= $_SESSION['guerrier']->getDegatsArme() ?></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+        <?php if (isset($_SESSION['orc'])) { ?>
+            <div class="d-flex justify-content-center fs-1 overlay">
+                <div class="d-block fs-3 overlay">
+                    <p class="text-center">Orc</p>
+                    <div class="d-flex justify-content-center mt-5">
+                        <img src="assets/img/Chibi_Orc_2.png" alt="assets/img/Chibi_Orc_2.png">
+                    </div>
+                    <div class="d-flex justify-content-center mt-5">
+                        <div class="perso-informations mt-5">
+                            <div class="d-flex justify-content-center align-items-center px-5 ps-5">
+                                <img class="text-white" src="assets/img/heart_3.png" alt="assets/img/heart_3.png">
+                                <p class="ms-3 mx-3 mt-3"><?= $_SESSION['orc']->getPointsDeVie() ?></p>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center px-5 ps-5">
+                                <img class="text-white" src="assets/img/magic_2.png" alt="assets/img/magic_2.png">
+                                <p class="ms-3 mx-3 mt-3"><?= $_SESSION['orc']->getPointsDeMana() ?></p>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center px-5 ps-5">
+                                <img class="text-white" src="assets/img/shield_2.png" alt="assets/img/shield_2.png">
+                                <p class="ms-3 mx-3 mt-3">0</p>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center px-5 ps-5">
+                                <img class="text-white" src="assets/img/sword_2.png" alt="assets/img/sword_2.png">
+                                <p class="ms-3 mx-3 mt-3"><?= $_SESSION['orc']->getDamageMin() ?> / <?= $_SESSION['orc']->getDamageMax() ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
     </div>
-
-    <!-- <div class="div-combat">
-            <div class="d-flex justify-content-center">
-                <p class="text-white">Texte ou élément sur l'image</p>
-            </div>
-            <div class="d-flex justify-content-center">
-                <p class="text-white">hceiçufgbsdiufgbzeiyufbgeiufgbsdiugbgfiub</p>
-            </div>
-        </div> -->
-    <!-- <img class="taille-img ms-auto mx-auto position-relative" src="assets/img/Maison Moyen Age.png" alt="assets/img/Maison Moyen Age.png"> -->
-    <!-- <div style="position: absolute; top: 20px; left: 20px;">
-            <div class="div-combat">
-                <div class="d-flex justify-content-center">
-                    <p class="text-white">Texte ou élément sur l'image</p>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <p class="text-white">hceiçufgbsdiufgbzeiyufbgeiufgbsdiugbgfiub</p>
-                </div>
-            </div>
-        </div> -->
-    <!-- <div class="d-flex">
-        <img class="taille-img ms-auto mx-auto position-relative" src="assets/img/Maison Moyen Age.png" alt="assets/img/Maison Moyen Age.png">
-        <div class="position-absolute div-combat">
-            <div>
-                <p class="text-white fs-1">fbhgdizufbrzeiuy</p>
-            </div>
-            <div>
-                <p class="text-white fs-1">jhefiuhgiyuerzg</p>
-            </div>
-        </div>
-    </div> -->
+    <div class="d-flex justify-content-center mt-2 fs-1">
+        <?= isset($errors['pasGuerrier']) ? $errors['pasGuerrier'] : '' ?>
+        <?= isset($errors['ouiGuerrier']) ? $errors['ouiGuerrier'] : '' ?>
+        <?= isset($errors['pasOrc']) ? $errors['pasOrc'] : '' ?>
+        <?= isset($errors['ouiOrc']) ? $errors['ouiOrc'] : '' ?>
+        <?= isset($errors['peutPasCommencer']) ? $errors['peutPasCommencer'] : '' ?>
+        <?= isset($errors['pasCommencerCombat']) ? $errors['pasCommencerCombat'] : '' ?>
+    </div>
     <form action="" method="POST">
         <div class="d-flex justify-content-center">
             <?php if (isset($_POST['modeJourNuit'])) { ?>
