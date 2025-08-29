@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!isset($_SESSION["guerrier"])) {
 
             $errors['pasGuerrier'] = "Il y a pas de Guerrier dans le jeu, il sera crée maintenant";
-            $_SESSION["guerrier"] = new Guerrier(2000, 500, "Ultima", 250, "Bouclier Ultime", 200);
+            $_SESSION["guerrier"] = new Guerrier(2000, 500, "Ultima", 250, "Bouclier Ultime", 200, "assets/img/Chibi_Guerrier_1.png");
         } else {
             $errors['ouiGuerrier'] = "Le Guerrier existe déjà ! :) Pas besoin de le recréer ! :)";
         }
@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!isset($_SESSION["orc"])) {
 
             $errors['pasOrc'] = "Il y a pas d'Orc dans le jeu, il sera crée maintenant";
-            $_SESSION["orc"] = new Orc(1500, 200, 100, 400);
+            $_SESSION["orc"] = new Orc(1500, 200, 100, 400, "assets/img/Chibi_Orc_1.png");
         } else {
             $errors['ouiOrc'] = "L'orc existe déjà ! :) Pas besoin de le recréer ! :)";
         }
@@ -151,7 +151,7 @@ var_dump($_POST);
         mode-jour
     <?php } ?>
 <?php } ?>mode-jour">
-    <div class=" d-flex align-items-center">
+    <div class="d-flex align-items-center">
         <h1 class="mt-5 ms-5
         <?php if (isset($_POST['modeJourNuit'])) { ?>
             <?php if ($_POST['modeJourNuit'] == 'Mode Nuit') { ?>
@@ -162,7 +162,14 @@ var_dump($_POST);
         <?php } ?>titre-jour">Combat Légendaire !!!!</h1>
         <div class="w-100 d-flex justify-content-end align-items-center">
             <form action="" method="POST">
-                <input class="btn btns-jour mx-5 text-white" type="submit" name="modeJourNuit" id="modeJourNuit"
+                <input class="btn mx-5 text-white
+                <?php if (isset($_POST['modeJourNuit'])) { ?>
+                    <?php if ($_POST['modeJourNuit'] == 'Mode Nuit') { ?>
+                        btns-nuit
+                    <?php } else { ?>
+                        btns-jour
+                    <?php } ?>
+                <?php } ?>btns-jour" type="submit" name="modeJourNuit" id="modeJourNuit"
                     <?php if (isset($_POST['modeJourNuit'])) { ?>
                     <?php if ($_POST['modeJourNuit'] == 'Mode Nuit') { ?>
                     value='Mode Jour' ;
@@ -173,15 +180,65 @@ var_dump($_POST);
             </form>
         </div>
     </div>
-    <div class="d-flex justify-content-center">
-        <img class="taille-img" src="assets/img/Maison Moyen Age.png" alt="assets/img/Maison Moyen Age.png">
+    <div class="div-img-fond-combat">
+        <div class="d-flex justify-content-center fs-1 overlay">
+            <p>Guerrier</p>
+        </div>
+        <div class="d-flex justify-content-center fs-1 overlay">
+            <p>Orc</p>
+        </div>
     </div>
+
+    <!-- <div class="div-combat">
+            <div class="d-flex justify-content-center">
+                <p class="text-white">Texte ou élément sur l'image</p>
+            </div>
+            <div class="d-flex justify-content-center">
+                <p class="text-white">hceiçufgbsdiufgbzeiyufbgeiufgbsdiugbgfiub</p>
+            </div>
+        </div> -->
+    <!-- <img class="taille-img ms-auto mx-auto position-relative" src="assets/img/Maison Moyen Age.png" alt="assets/img/Maison Moyen Age.png"> -->
+    <!-- <div style="position: absolute; top: 20px; left: 20px;">
+            <div class="div-combat">
+                <div class="d-flex justify-content-center">
+                    <p class="text-white">Texte ou élément sur l'image</p>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <p class="text-white">hceiçufgbsdiufgbzeiyufbgeiufgbsdiugbgfiub</p>
+                </div>
+            </div>
+        </div> -->
+    <!-- <div class="d-flex">
+        <img class="taille-img ms-auto mx-auto position-relative" src="assets/img/Maison Moyen Age.png" alt="assets/img/Maison Moyen Age.png">
+        <div class="position-absolute div-combat">
+            <div>
+                <p class="text-white fs-1">fbhgdizufbrzeiuy</p>
+            </div>
+            <div>
+                <p class="text-white fs-1">jhefiuhgiyuerzg</p>
+            </div>
+        </div>
+    </div> -->
     <form action="" method="POST">
         <div class="d-flex justify-content-center">
-            <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier">
-            <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="orc" id="orc" value="Créer Orc">
-            <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?">
-            <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="combat" id="combat" value="Combat !">
+            <?php if (isset($_POST['modeJourNuit'])) { ?>
+                <?php if ($_POST['modeJourNuit'] == 'Mode Nuit') { ?>
+                    <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier">
+                    <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="orc" id="orc" value="Créer Orc">
+                    <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?">
+                    <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="combat" id="combat" value="Combat !">
+                <?php } else { ?>
+                    <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier">
+                    <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="orc" id="orc" value="Créer Orc">
+                    <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?">
+                    <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="combat" id="combat" value="Combat !">
+                <?php } ?>
+            <?php } else { ?>
+                <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier">
+                <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="orc" id="orc" value="Créer Orc">
+                <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?">
+                <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="combat" id="combat" value="Combat !">
+            <?php } ?>
         </div>
     </form>
 </body>

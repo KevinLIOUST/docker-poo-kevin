@@ -23,6 +23,9 @@ class Guerrier extends Character
     // Attribut $defenseBouclier pour réduire les dégâts grâce au bouclier du personnage
     private int $defenseBouclier;
 
+    // Attribut pour l'image du monstre
+    private string $image;
+
     // // Méthode (fonction) pour modifier le prénom du personnage
     // public function setPrenom(string $newPrenom)
     // {
@@ -83,6 +86,11 @@ class Guerrier extends Character
         $this->defenseBouclier = $newDefenseBouclier;
     }
 
+    // Méthode pour modifier l'image
+    public function setPathImage(string $newImage) {
+        $this->image = $newImage;
+    }
+
     // Méthode (fonction) pour récupérer l'arme du personnage
     public function getArme()
     {
@@ -128,8 +136,13 @@ class Guerrier extends Character
         }
     }
 
+    // Méthode pour récupérer l'image du monstre
+    public function getPathImage() {
+        return $this->image;
+    }
+
     // Constructeur pour construire un nouveau guerrier avec ses caractéristiques pour le combat
-    public function __construct(int $pointsDeVie, int $pointsDeMana, string $arme, int $degatsArme, string $nomBouclier, int $defenseBouclier)
+    public function __construct(int $pointsDeVie, int $pointsDeMana, string $arme, int $degatsArme, string $nomBouclier, int $defenseBouclier, string $pathImage)
     {
         parent::__construct($pointsDeVie, $pointsDeMana);
         $this->setPointsDeVie($pointsDeVie);
@@ -138,5 +151,6 @@ class Guerrier extends Character
         $this->setDegatsArme($degatsArme);
         $this->setNomBouclier($nomBouclier);
         $this->setDefenseBouclier($defenseBouclier);
+        $this->setPathImage($pathImage);
     }
 }

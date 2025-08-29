@@ -9,6 +9,9 @@ class Orc extends Character
     // Attribut $damageMin pour déterminer les dégâts maximum
     private int $damageMax;
 
+    // Attribut $pathImage pour le chemin de l'image du monstre en question
+    private string $pathImage;
+
     // Méthode pour modifier les dégâts minimum quand l'orc attaquera
     public function setDamageMin($newDamageMin)
     {
@@ -33,6 +36,16 @@ class Orc extends Character
         return $this->damageMax;
     }
 
+    // Méthode pour modifier l'image du monstre en question
+    public function setPathImage($newPathImage) {
+        $this->pathImage = $newPathImage;
+    }
+
+    // Méthode pour récupérer l'image du monstre en question
+    public function getPathImage() {
+        return $this->pathImage;
+    }
+
     // Fonction pour que l'orc puisse attaquer entre une valeur min et max inclus
     public function attack()
     {
@@ -41,11 +54,12 @@ class Orc extends Character
     }
 
     // Constructeur pour construire un Orc avec ses caractéristiques
-    public function __construct(int $pointsDeVie, int $pointsDeMana, int $damageMin, int $damageMax)
+    public function __construct(int $pointsDeVie, int $pointsDeMana, int $damageMin, int $damageMax, string $pathImage)
     {
         parent::__construct($pointsDeVie, $pointsDeMana);
         $this->setDamageMin($damageMin);
         $this->setDamageMax($damageMax);
+        $this->setPathImage($pathImage);
     }
 }
 ?>

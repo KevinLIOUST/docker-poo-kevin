@@ -1,20 +1,20 @@
 /* Importation de la police d'écriture */
 
 @font-face {
-  font-family: 'Enchanted Land';
-  src: url('../font/Enchanted\ Land.otf') format('OpenType');
+  font-family: "Enchanted Land";
+  src: url("../font/Enchanted\ Land.otf") format("OpenType");
   /* font-weight: normal;
   font-style: normal; */
 }
 
 /* Pour toute la page */
 body {
-  font-family: 'Enchanted Land', Arial, Helvetica, sans-serif;
+  font-family: "Enchanted Land", Arial, Helvetica, sans-serif;
   background-color: white;
 }
 
 /* Mode jour */
-.mode-jour{
+.mode-jour {
   background-color: white;
 }
 
@@ -42,16 +42,40 @@ body {
   height: auto;
 }
 
-/* .div-photo {
-  width: 90%;
-  height: auto;
+/* Pour l'affichage des personnages avec leurs informations */
+/* .div-combat {
+  background-image: url("../img/Maison\ Moyen\ Age.png");
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 2rem;
   flex-wrap: wrap;
-  text-align: center;
-  justify-self: center;
+  font-size: 100px;
 } */
+
+/* Pour définir une image en arrière-plan, ainsi que la préparation du terrain à mettre sur l'image */
+.div-img-fond-combat {
+  /* Préparationd e l'image en arrière-plan */
+  background-image: url("../img/Maison\ Moyen\ Age\ 2.png"); /* Chemin de l'image */
+  background-size: contain; /* Ajuste l'image pour qu'elle soit entièrement visible */
+  background-repeat: no-repeat; /* Empêche la répétition de l'image */
+  background-position: center; /* Centre l'image dans la div */
+  width: 100%; /* Largeur automatique */
+  height: 100%; /* Hauteur automatique */
+  aspect-ratio: 16/9; /* Optionnel : pour respecter les proportions */
+
+  /* Préparation du terrain pour le combat */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* place-items: center; */
+}
+
+/* Pour mettre les éléments sur l'image*/
+.overlay {
+  color: white;
+  /* background-color: rgba(0, 0, 0, 0.5); Fond semi-transparent */
+  padding: 10px;
+  border-radius: 5px;
+}
 
 /* Les boutons du mode jour */
 
@@ -66,7 +90,6 @@ body {
 /* Quand l'utilisateur passe sa souris sur les boutons */
 .btns-jour:hover {
   background-color: rgb(152, 101, 101);
-  border: 3px solid black;
 }
 
 /* Les boutons du mode nuit */
@@ -82,5 +105,4 @@ body {
 /* Quand l'utilisateur passe sa souris sur les boutons */
 .btns-nuit:hover {
   background-color: rgb(152, 101, 101);
-  border: 3px solid white;
 }
