@@ -10,7 +10,7 @@
 /* Pour toute la page */
 body {
   font-family: "Enchanted Land", Arial, Helvetica, sans-serif;
-  background-color: white;
+  background-color: rgb(175, 175, 175);
 }
 
 /* Mode jour */
@@ -80,7 +80,7 @@ body {
 /* Pour les informations sur le personnage */
 .perso-informations {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   margin-left: 2rem;
   margin-right: 2rem;
 }

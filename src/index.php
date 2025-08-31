@@ -9,18 +9,22 @@ session_start();
 // session_unset();
 // session_destroy();
 
+$quiVaGagner = '';
+$quiCommence = '';
+$resumeTour = '';
 // Fonction pour savoir qui va gagner la partie
 function quiVaGagner()
 {
     if ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0) {
-        echo "Le Combat Légendaire est terminé";
         if ($_SESSION['guerrier']->getPointsDeVie() <= 0) {
-            echo "L'Orc a gagné ! :)";
+            $quiVaGagner = " L'Orc a gagné ! :)";
         } elseif ($_SESSION['orc']->getPointsDeVie() <= 0) {
-            echo "Le Guerrier a gagné ! :)";
+            $quiVaGagner = " Le Guerrier a gagné ! :)";
         } else {
-            echo "Egalité ! :)";
+            $quiVaGagner = " Egalité ! :)";
         }
+
+        return " Le Combat Légendaire est terminé ! :) " . $quiVaGagner;
     }
 }
 
@@ -33,9 +37,13 @@ function lancerLeDe()
     if ($nbAleatoireGuerrier > $nbAleatoireOrc) {
 
         $_SESSION['commencer'] = 'guerrier';
+        $quiCommence = "Le Guerrier va commencer !";
+        return $quiCommence;
     } elseif ($nbAleatoireGuerrier < $nbAleatoireOrc) {
 
         $_SESSION['commencer'] = 'orc';
+        $quiCommence = "L'Orc va commencer !";
+        return $quiCommence;
     } elseif ($nbAleatoireGuerrier == $nbAleatoireOrc) {
 
         while ($nbAleatoireGuerrier == $nbAleatoireOrc) {
@@ -46,8 +54,12 @@ function lancerLeDe()
             if ($nbAleatoireGuerrier > $nbAleatoireOrc) {
 
                 $_SESSION['commencer'] = 'guerrier';
+                $quiCommence = "Le Guerrier va commencer !";
+                return $quiCommence;
             } elseif ($nbAleatoireGuerrier < $nbAleatoireOrc) {
                 $_SESSION['commencer'] = 'orc';
+                $quiCommence = "L'Orc va commencer !";
+                return $quiCommence;
             }
         }
     }
@@ -55,6 +67,7 @@ function lancerLeDe()
 
 // On regarde si la méthode est bien POST pour envoyer des données au serveur
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
     $errors = [];
 
     if (isset($_POST["guerrier"])) {
@@ -62,7 +75,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!isset($_SESSION["guerrier"])) {
 
             $errors['pasGuerrier'] = "Il y a pas de Guerrier dans le jeu, il sera crée maintenant";
-            $_SESSION["guerrier"] = new Guerrier(2000, 500, "Ultima", 250, "Bouclier Ultime", 200, "assets/img/Chibi_Guerrier_1.png");
+            $_SESSION["guerrier"] = new Guerrier(2000, 500, "Ultima", 250, "Bouclier Ultime", 200, "assets/img/Chibi_Guerrier_6.png");
+            $_SESSION["pointsDeVieTotalGuerrier"] = $_SESSION["guerrier"]->getPointsDeVie();
         } else {
             $errors['ouiGuerrier'] = "Le Guerrier existe déjà ! :) Pas besoin de le recréer ! :)";
         }
@@ -71,19 +85,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!isset($_SESSION["orc"])) {
 
             $errors['pasOrc'] = "Il y a pas d'Orc dans le jeu, il sera crée maintenant";
-            $_SESSION["orc"] = new Orc(1500, 200, 100, 400, "assets/img/Chibi_Orc_1.png");
+            $_SESSION["orc"] = new Orc(1500, 200, 100, 400, "assets/img/Chibi_Orc_2.png");
+            $_SESSION["pointsDeVieTotalOrc"] = $_SESSION["orc"]->getPointsDeVie();
         } else {
             $errors['ouiOrc'] = "L'orc existe déjà ! :) Pas besoin de le recréer ! :)";
         }
     } elseif (isset($_POST["commencer"])) {
 
-        if (!isset($_SESSION["orc"]) || !isset($_SESSION["guerrier"])) {
+        if (isset($_SESSION['commencer'])) {
+
+            $errors["commencer"] = "On sais déjà qui commence ! C'est " . $_SESSION['commencer'] . " qui commence !";
+        } elseif (!isset($_SESSION["orc"]) || !isset($_SESSION["guerrier"])) {
 
             $errors['peutPasCommencer'] = "La partie peut pas commencer sans le Guerrier et l'Orc !";
         } elseif (isset($_SESSION['guerrier']) && isset($_SESSION['orc'])) {
 
-            lancerLeDe();
+            $quiCommence = lancerLeDe();
         }
+    } elseif (isset($_POST['modeJourNuit'])) {
+        $_SESSION['modeJourNuit'] = $_POST['modeJourNuit'];
     }
 
     // Algo de combat
@@ -98,19 +118,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // On regarde c'est qui qui commence
                 if ($_SESSION['commencer'] == "guerrier") {
                     // Le Guerrier va attaquer l'Orc
-                    echo "Le Guerrier attaque avec une frappe de " . $_SESSION['guerrier']->attack() . " !";
+                    $stringFrappe = "Le Guerrier attaque avec une frappe de " . $_SESSION['guerrier']->attack() . " ! ";
                     $_SESSION['orc']->setPointsDeVie($_SESSION['orc']->getPointsDeVie() - $_SESSION['guerrier']->attack());
-                    echo "L'Orc a perdu " . $_SESSION['guerrier']->attack() . " points de vie ! :) " . "Il lui reste " . $_SESSION['orc']->getPointsDeVie() . " points de vie ! :)";
+                    $stringPointsDeVie = "L'Orc a perdu " . $_SESSION['guerrier']->attack() . " points de vie ! :) " . " Il lui reste " . $_SESSION['orc']->getPointsDeVie() . " points de vie ! :)";
                     $_SESSION['commencer'] = "orc";
-                    quiVaGagner();
+                    $quiCommence = $_SESSION["commencer"];
+                    $quiVaGagner = quiVaGagner();
+                    $resumeTour = $stringFrappe . $stringPointsDeVie . $quiVaGagner;
+                    $_SESSION['resumeTour'] = $resumeTour;
                 } else {
                     // L'Orc va attaquer le Guerrier
                     $attackAleatoire = $_SESSION['orc']->attack();
-                    echo "L'Orc attaque avec une frappe de " . $attackAleatoire . " !";
+                    $stringFrappe =  "L'Orc attaque avec une frappe de " . $attackAleatoire . " ! ";
                     $degats = $_SESSION['guerrier']->getDamage($attackAleatoire);
-                    echo "Le Guerrier a perdu " . $degats . " points de vie ! :) " . "Il lui reste " . $_SESSION['guerrier']->getPointsDeVie() . " points de vie ! :)";
+                    $stringPointsDeVie = "Le Guerrier a perdu " . $degats . " points de vie ! :) " . " Il lui reste " . $_SESSION['guerrier']->getPointsDeVie() . " points de vie ! :)";
                     $_SESSION['commencer'] = "guerrier";
-                    quiVaGagner();
+                    $quiCommence = $_SESSION["commencer"];
+                    $quiVaGagner = quiVaGagner();
+                    $resumeTour = $stringFrappe . $stringPointsDeVie . $quiVaGagner;
+                    $_SESSION['resumeTour'] = $resumeTour;
                 }
             }
         }
@@ -146,8 +172,8 @@ var_dump($_SESSION);
 </head>
 
 <body class="
-<?php if (isset($_POST['modeJourNuit'])) { ?>
-    <?php if ($_POST['modeJourNuit'] == 'Mode Nuit') { ?>
+<?php if (isset($_SESSION['modeJourNuit'])) { ?>
+    <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>
          mode-nuit
     <?php } else { ?>
         mode-jour
@@ -155,8 +181,8 @@ var_dump($_SESSION);
 <?php } ?>mode-jour">
     <div class="d-flex align-items-center">
         <h1 class="mt-5 ms-5
-        <?php if (isset($_POST['modeJourNuit'])) { ?>
-            <?php if ($_POST['modeJourNuit'] == 'Mode Nuit') { ?>
+        <?php if (isset($_SESSION['modeJourNuit'])) { ?>
+            <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>
                 titre-nuit
             <?php } else { ?>
                 titre-jour
@@ -165,15 +191,15 @@ var_dump($_SESSION);
         <div class="w-100 d-flex justify-content-end align-items-center">
             <form action="" method="POST">
                 <input class="btn mx-5 text-white
-                <?php if (isset($_POST['modeJourNuit'])) { ?>
-                    <?php if ($_POST['modeJourNuit'] == 'Mode Nuit') { ?>
+                <?php if (isset($_SESSION['modeJourNuit'])) { ?>
+                    <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>
                         btns-nuit
                     <?php } else { ?>
                         btns-jour
                     <?php } ?>
                 <?php } ?>btns-jour" type="submit" name="modeJourNuit" id="modeJourNuit"
-                    <?php if (isset($_POST['modeJourNuit'])) { ?>
-                    <?php if ($_POST['modeJourNuit'] == 'Mode Nuit') { ?>
+                    <?php if (isset($_SESSION['modeJourNuit'])) { ?>
+                    <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>
                     value='Mode Jour' ;
                     <?php } else { ?>
                     value='Mode Nuit' ;
@@ -189,12 +215,12 @@ var_dump($_SESSION);
                 <div class="d-flex justify-content-center mt-5">
                     <img src="assets/img/Chibi_Guerrier_6.png" alt="assets/img/Chibi_Guerrier_6.png">
                 </div>
-                <div class="d-flex justify-content-center mt-5">
-                    <div class="perso-informations mt-5">
-                        <div class="d-flex justify-content-center align-items-center px-5 ps-5">
-                            <img class="text-white" src="assets/img/heart_3.png" alt="assets/img/heart_3.png">
-                            <p class="ms-3 mx-3 mt-3"><?= $_SESSION['guerrier']->getPointsDeVie() ?></p>
-                        </div>
+                <div class="d-flex justify-content-center align-items-center">
+                    <img class="text-white" src="assets/img/heart_3.png" alt="assets/img/heart_3.png">
+                    <p class="ms-3 mx-3 mt-3"><?= $_SESSION['guerrier']->getPointsDeVie() ?> / <?= $_SESSION["pointsDeVieTotalGuerrier"] ?></p>
+                </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <div class="perso-informations mt-3">
                         <div class="d-flex justify-content-center align-items-center px-5 ps-5">
                             <img class="text-white" src="assets/img/magic_2.png" alt="assets/img/magic_2.png">
                             <p class="ms-3 mx-3 mt-3"><?= $_SESSION['guerrier']->getPointsDeMana() ?></p>
@@ -218,12 +244,12 @@ var_dump($_SESSION);
                     <div class="d-flex justify-content-center mt-5">
                         <img src="assets/img/Chibi_Orc_2.png" alt="assets/img/Chibi_Orc_2.png">
                     </div>
-                    <div class="d-flex justify-content-center mt-5">
-                        <div class="perso-informations mt-5">
-                            <div class="d-flex justify-content-center align-items-center px-5 ps-5">
-                                <img class="text-white" src="assets/img/heart_3.png" alt="assets/img/heart_3.png">
-                                <p class="ms-3 mx-3 mt-3"><?= $_SESSION['orc']->getPointsDeVie() ?></p>
-                            </div>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <img class="text-white" src="assets/img/heart_3.png" alt="assets/img/heart_3.png">
+                        <p class="ms-3 mx-3 mt-3"><?= $_SESSION['orc']->getPointsDeVie() ?> / <?= $_SESSION["pointsDeVieTotalOrc"] ?></p>
+                    </div>
+                    <div class="d-flex justify-content-center mt-3">
+                        <div class="perso-informations mt-3">
                             <div class="d-flex justify-content-center align-items-center px-5 ps-5">
                                 <img class="text-white" src="assets/img/magic_2.png" alt="assets/img/magic_2.png">
                                 <p class="ms-3 mx-3 mt-3"><?= $_SESSION['orc']->getPointsDeMana() ?></p>
@@ -234,7 +260,7 @@ var_dump($_SESSION);
                             </div>
                             <div class="d-flex justify-content-center align-items-center px-5 ps-5">
                                 <img class="text-white" src="assets/img/sword_2.png" alt="assets/img/sword_2.png">
-                                <p class="ms-3 mx-3 mt-3"><?= $_SESSION['orc']->getDamageMin() ?> / <?= $_SESSION['orc']->getDamageMax() ?></p>
+                                <p class="ms-3 mx-3 mt-3"><?= $_SESSION['orc']->getDamageMin() ?> - <?= $_SESSION['orc']->getDamageMax() ?></p>
                             </div>
                         </div>
                     </div>
@@ -242,33 +268,61 @@ var_dump($_SESSION);
             </div>
         <?php } ?>
     </div>
-    <div class="d-flex justify-content-center mt-2 fs-1">
-        <?= isset($errors['pasGuerrier']) ? $errors['pasGuerrier'] : '' ?>
-        <?= isset($errors['ouiGuerrier']) ? $errors['ouiGuerrier'] : '' ?>
-        <?= isset($errors['pasOrc']) ? $errors['pasOrc'] : '' ?>
-        <?= isset($errors['ouiOrc']) ? $errors['ouiOrc'] : '' ?>
-        <?= isset($errors['peutPasCommencer']) ? $errors['peutPasCommencer'] : '' ?>
-        <?= isset($errors['pasCommencerCombat']) ? $errors['pasCommencerCombat'] : '' ?>
-    </div>
+    <?php if (isset($_SESSION['modeJourNuit'])) { ?>
+        <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>
+            <div class="d-flex justify-content-center mt-2 fs-1">
+                <p class="text-white"><?= isset($errors['pasGuerrier']) ? $errors['pasGuerrier'] : '' ?></p>
+                <p class="text-white"><?= isset($errors['ouiGuerrier']) ? $errors['ouiGuerrier'] : '' ?></p>
+                <p class="text-white"><?= isset($errors['pasOrc']) ? $errors['pasOrc'] : '' ?></p>
+                <p class="text-white"><?= isset($errors['ouiOrc']) ? $errors['ouiOrc'] : '' ?></p>
+                <p class="text-white"><?= isset($errors['peutPasCommencer']) ? $errors['peutPasCommencer'] : '' ?></p>
+                <p class="text-white"><?= isset($errors['pasCommencerCombat']) ? $errors['pasCommencerCombat'] : '' ?></p>
+                <p class="text-white"><?= isset($errors['commencer']) ? $errors['commencer'] : '' ?></p>
+                <p class="text-white"><?= isset($_SESSION['resumeTour']) ? $_SESSION['resumeTour'] : '' ?></p>
+            </div>
+        <?php } else { ?>
+            <div class="d-flex justify-content-center mt-2 fs-1">
+                <p class="text-black"><?= isset($errors['pasGuerrier']) ? $errors['pasGuerrier'] : '' ?></p>
+                <p class="text-black"><?= isset($errors['ouiGuerrier']) ? $errors['ouiGuerrier'] : '' ?></p>
+                <p class="text-black"><?= isset($errors['pasOrc']) ? $errors['pasOrc'] : '' ?></p>
+                <p class="text-black"><?= isset($errors['ouiOrc']) ? $errors['ouiOrc'] : '' ?></p>
+                <p class="text-black"><?= isset($errors['peutPasCommencer']) ? $errors['peutPasCommencer'] : '' ?></p>
+                <p class="text-black"><?= isset($errors['pasCommencerCombat']) ? $errors['pasCommencerCombat'] : '' ?></p>
+                <p class="text-black"><?= isset($errors['commencer']) ? $errors['commencer'] : '' ?></p>
+                <p class="text-black"><?= isset($_SESSION['resumeTour']) ? $_SESSION['resumeTour'] : '' ?></p>
+            </div>
+        <?php } ?>
+    <?php } else { ?>
+        <div class="d-flex justify-content-center mt-2 fs-1">
+            <p class="text-black"><?= isset($errors['pasGuerrier']) ? $errors['pasGuerrier'] : '' ?></p>
+            <p class="text-black"><?= isset($errors['ouiGuerrier']) ? $errors['ouiGuerrier'] : '' ?></p>
+            <p class="text-black"><?= isset($errors['pasOrc']) ? $errors['pasOrc'] : '' ?></p>
+            <p class="text-black"><?= isset($errors['ouiOrc']) ? $errors['ouiOrc'] : '' ?></p>
+            <p class="text-black"><?= isset($errors['peutPasCommencer']) ? $errors['peutPasCommencer'] : '' ?></p>
+            <p class="text-black"><?= isset($errors['pasCommencerCombat']) ? $errors['pasCommencerCombat'] : '' ?></p>
+            <p class="text-black"><?= isset($errors['commencer']) ? $errors['commencer'] : '' ?></p>
+            <p class="text-black"><?= isset($_SESSION['resumeTour']) ? $_SESSION['resumeTour'] : '' ?></p>
+        </div>
+    <?php } ?>
     <form action="" method="POST">
         <div class="d-flex justify-content-center">
-            <?php if (isset($_POST['modeJourNuit'])) { ?>
-                <?php if ($_POST['modeJourNuit'] == 'Mode Nuit') { ?>
-                    <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier">
-                    <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="orc" id="orc" value="Créer Orc">
-                    <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?">
-                    <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="combat" id="combat" value="Combat !">
+            <?php if (isset($_SESSION['modeJourNuit'])) { ?>
+                <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>
+                    <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier" <?= isset($_SESSION['guerrier']) ? 'disabled' : '' ?>>
+                    <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="orc" id="orc" value="Créer Orc" <?= isset($_SESSION['orc']) ? 'disabled' : '' ?>>
+                    <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?" <?= isset($_SESSION['commencer']) ? 'disabled' : '' ?>>
+                    <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="combat" id="combat" value="Combat !" <?= isset($_SESSION['guerrier']) && isset($_SESSION['orc']) ? ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0 ? 'disabled' : '') : '' ?>>
                 <?php } else { ?>
-                    <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier">
-                    <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="orc" id="orc" value="Créer Orc">
-                    <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?">
-                    <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="combat" id="combat" value="Combat !">
+                    <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier" <?= isset($_SESSION['guerrier']) ? 'disabled' : '' ?>>
+                    <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="orc" id="orc" value="Créer Orc" <?= isset($_SESSION['orc']) ? 'disabled' : '' ?>>
+                    <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?" <?= isset($_SESSION['commencer']) ? 'disabled' : '' ?>>
+                    <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="combat" id="combat" value="Combat !" <?= isset($_SESSION['guerrier']) && isset($_SESSION['orc']) ? ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0 ? 'disabled' : '') : '' ?>>
                 <?php } ?>
             <?php } else { ?>
-                <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier">
-                <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="orc" id="orc" value="Créer Orc">
-                <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?">
-                <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="combat" id="combat" value="Combat !">
+                <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier" <?= isset($_SESSION['guerrier']) ? 'disabled' : '' ?>>
+                <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="orc" id="orc" value="Créer Orc" <?= isset($_SESSION['orc']) ? 'disabled' : '' ?>>
+                <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?" <?= isset($_SESSION['commencer']) ? 'disabled' : '' ?>>
+                <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="combat" id="combat" value="Combat !" <?= isset($_SESSION['guerrier']) && isset($_SESSION['orc']) ? ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0 ? 'disabled' : '') : '' ?>>
             <?php } ?>
         </div>
     </form>
