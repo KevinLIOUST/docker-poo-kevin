@@ -189,7 +189,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php } ?>
 <?php } ?>mode-jour">
     <audio id="audioPlayer">
-        <source src="<?=$fichier_audio?>">
+        <source id="audioSource" src="<?=$fichier_audio?>" type="audio/mpeg">
     </audio>
     <div class="d-flex align-items-center">
         <h1 class="mt-5 ms-5
@@ -321,7 +321,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p class="text-black"><?= isset($_POST['resumeTour']) ? $_POST['resumeTour'] : '' ?></p>
         </div>
     <?php } ?>
-    <form action="" method="POST" id="commencer">
+    <form action="" method="POST">
         <div class="d-flex justify-content-center">
             <?php if (isset($_SESSION['modeJourNuit'])) { ?>
                 <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>
@@ -349,14 +349,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <script>
         // Ajouter un événement de clic au bouton
-        btnCommencer.addEventListener('click', function(event) {
-        event.preventDefault(); // Empêche l'envoi immédiat du formulaire
-        const audio = document.getElementById('audioPlayer');
-        audio.play(); // Joue la musique
-        setTimeout(() => {
-            document.getElementById('commencer').submit(); // Envoie le formulaire après un délai
-        }, 2000); // Délai de 2 secondes (ajustez selon vos besoins)
-    });
+        document.getElementById('commencer').addEventListener('submit', function (e) {
+    e.preventDefault(); // Empêche le rechargement de la page
+
+    // Requête AJAX
+    fetch('playMusic.php', {
+        method: 'POST'
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const audioPlayer = document.getElementById('audioPlayer');
+                const audioSource = document.getElementById('audioSource');
+                audioSource.src = data.music_url; // URL de la musique reçue
+                audioPlayer.style.display = 'block'; // Affiche le lecteur audio
+                audioPlayer.load(); // Recharge l'audio
+                audioPlayer.play(); // Joue la musique
+            } else {
+                alert('Erreur : ' + data.message);
+            }
+        })
+        .catch(error => console.error('Erreur AJAX :', error));
+});
     </script>
 </body>
 
