@@ -10,7 +10,7 @@
 /* Pour toute la page */
 body {
   font-family: 'Enchanted Land', Arial, Helvetica, sans-serif;
-  background-color: rgb(175, 175, 175);
+  background-color: white;
 }
 
 /* Mode jour */
@@ -25,14 +25,14 @@ body {
 
 /* Pour le titre de jour */
 .titre-jour {
-  width: 25rem;
-  font-size: 50px;
+  width: 15rem;
+  font-size: 30px;
 }
 
 /* Pour le titre de nuit */
 .titre-nuit {
-  width: 25rem;
-  font-size: 50px;
+  width: 15rem;
+  font-size: 30px;
   color: white;
 }
 
@@ -122,5 +122,13 @@ body {
     background-repeat: no-repeat;
     aspect-ratio: 16/9;
     text-align: center;
+  }
+
+  .btns-jour {
+    font-size: x-large;
+  }
+
+  .btns-nuit {
+    font-size: x-large;
   }
 }
