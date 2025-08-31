@@ -138,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 } else {
                     // L'Orc va attaquer le Guerrier
                     $attackAleatoire = $_SESSION['orc']->attack();
-                    $stringFrappe =  "L'Orc attaque avec une frappe de " . $attackAleatoire . " ! ";
+                    $stringFrappe = "L'Orc attaque avec une frappe de " . $attackAleatoire . " ! ";
                     $degats = $_SESSION['guerrier']->getDamage($attackAleatoire);
                     $stringPointsDeVie = "Le Guerrier a perdu " . $degats . " points de vie ! :) " . " Il lui reste " . $_SESSION['guerrier']->getPointsDeVie() . " points de vie ! :)";
                     $_SESSION['commencer'] = "guerrier";
@@ -188,9 +188,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mode-jour
     <?php } ?>
 <?php } ?>mode-jour">
-    <audio id="audioPlayer">
-        <source id="audioSource" src="<?=$fichier_audio?>" type="audio/mpeg">
-    </audio>
+    <!-- <audio id="audioPlayer">
+        <source id="audioSource" src="<?= $fichier_audio ?>" type="audio/mpeg">
+    </audio> -->
     <div class="d-flex align-items-center">
         <h1 class="mt-5 ms-5
         <?php if (isset($_SESSION['modeJourNuit'])) { ?>
@@ -211,11 +211,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <?php } ?>
                 <?php } ?>btns-jour" type="submit" name="modeJourNuit" id="modeJourNuit"
                     <?php if (isset($_SESSION['modeJourNuit'])) { ?>
-                    <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>
-                    value='Mode Jour' ;
-                    <?php } else { ?>
-                    value='Mode Nuit' ;
-                    <?php } ?>
+                                        <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>
+                                                            value='Mode Jour' ;
+                                        <?php } else { ?>
+                                                            value='Mode Nuit' ;
+                                        <?php } ?>
                     <?php } ?>value="Mode Nuit">
             </form>
         </div>
@@ -223,154 +223,162 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="d-flex justify-content-center">
         <div class="div-img-fond-combat">
         <?php if (isset($_SESSION['guerrier'])) { ?>
-            <div class="d-block fs-3 overlay">
-                <p class="text-center">Guerrier</p>
-                <div class="d-flex justify-content-center mt-5">
-                    <img class="taille-img-perso" src="assets/img/Chibi_Guerrier_6.png" alt="assets/img/Chibi_Guerrier_6.png">
-                </div>
-                <div class="d-flex justify-content-center align-items-center">
-                    <img class="text-white" src="assets/img/heart.png" alt="assets/img/heart.png">
-                    <p class="ms-1 mx-1 mt-3"><?= $_SESSION['guerrier']->getPointsDeVie() ?> / <?= $_SESSION["pointsDeVieTotalGuerrier"] ?></p>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <div class="perso-informations">
-                        <div class="d-flex justify-content-center align-items-center px-2 ps-2">
-                            <img class="text-white" src="assets/img/magic.png" alt="assets/img/magic.png">
-                            <p class="ms-1 mx-1 mt-3"><?= $_SESSION['guerrier']->getPointsDeMana() ?></p>
-                        </div>
-                        <div class="d-flex justify-content-center align-items-center px-2 ps-2">
-                            <img class="text-white" src="assets/img/shield.png" alt="assets/img/shield.png">
-                            <p class="ms-1 mx-1 mt-3"><?= $_SESSION['guerrier']->getDefenceBouclier() ?></p>
-                        </div>
-                        <div class="d-flex justify-content-center align-items-center px-2 ps-2">
-                            <img class="text-white" src="assets/img/sword.png" alt="assets/img/sword.png">
-                            <p class="ms-1 mx-1 mt-3"><?= $_SESSION['guerrier']->getDegatsArme() ?></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                <div class="d-block fs-3 overlay">
+                                    <p class="text-center">Guerrier</p>
+                                    <div class="d-flex justify-content-center mt-5">
+                                        <img class="taille-img-perso" src="assets/img/Chibi_Guerrier_6.png" alt="assets/img/Chibi_Guerrier_6.png">
+                                    </div>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <img class="text-white" src="assets/img/heart.png" alt="assets/img/heart.png">
+                                        <p class="ms-1 mx-1 mt-3"><?= $_SESSION['guerrier']->getPointsDeVie() ?> / <?= $_SESSION["pointsDeVieTotalGuerrier"] ?></p>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="perso-informations">
+                                            <div class="d-flex justify-content-center align-items-center px-2 ps-2">
+                                                <img class="text-white" src="assets/img/magic.png" alt="assets/img/magic.png">
+                                                <p class="ms-1 mx-1 mt-3"><?= $_SESSION['guerrier']->getPointsDeMana() ?></p>
+                                            </div>
+                                            <div class="d-flex justify-content-center align-items-center px-2 ps-2">
+                                                <img class="text-white" src="assets/img/shield.png" alt="assets/img/shield.png">
+                                                <p class="ms-1 mx-1 mt-3"><?= $_SESSION['guerrier']->getDefenceBouclier() ?></p>
+                                            </div>
+                                            <div class="d-flex justify-content-center align-items-center px-2 ps-2">
+                                                <img class="text-white" src="assets/img/sword.png" alt="assets/img/sword.png">
+                                                <p class="ms-1 mx-1 mt-3"><?= $_SESSION['guerrier']->getDegatsArme() ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
         <?php } ?>
         <?php if (isset($_SESSION['orc'])) { ?>
-            <div class="d-flex justify-content-center fs-1 overlay">
-                <div class="d-block fs-3 overlay">
-                    <p class="text-center">Orc</p>
-                    <div class="d-flex justify-content-center mt-5">
-                        <img class="taille-img-perso" src="assets/img/Chibi_Orc_2.png" alt="assets/img/Chibi_Orc_2.png">
-                    </div>
-                    <div class="d-flex justify-content-center align-items-center">
-                        <img class="text-white" src="assets/img/heart.png" alt="assets/img/heart.png">
-                        <p class="ms-1 mx-1 mt-3"><?= $_SESSION['orc']->getPointsDeVie() ?> / <?= $_SESSION["pointsDeVieTotalOrc"] ?></p>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <div class="perso-informations">
-                            <div class="d-flex justify-content-center align-items-center">
-                                <img class="text-white" src="assets/img/magic.png" alt="assets/img/magic.png">
-                                <p class="ms-1 mx-1 mt-3"><?= $_SESSION['orc']->getPointsDeMana() ?></p>
-                            </div>
-                            <div class="d-flex justify-content-center align-items-center">
-                                <img class="text-white" src="assets/img/shield.png" alt="assets/img/shield.png">
-                                <p class="ms-1 mx-1 mt-3">0</p>
-                            </div>
-                            <div class="d-flex justify-content-center align-items-center">
-                                <img class="text-white" src="assets/img/sword.png" alt="assets/img/sword.png">
-                                <p class="ms-1 mx-1 mt-3"><?= $_SESSION['orc']->getDamageMin() ?> - <?= $_SESSION['orc']->getDamageMax() ?></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                <div class="d-flex justify-content-center fs-1 overlay">
+                                    <div class="d-block fs-3 overlay">
+                                        <p class="text-center">Orc</p>
+                                        <div class="d-flex justify-content-center mt-5">
+                                            <img class="taille-img-perso" src="assets/img/Chibi_Orc_2.png" alt="assets/img/Chibi_Orc_2.png">
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img class="text-white" src="assets/img/heart.png" alt="assets/img/heart.png">
+                                            <p class="ms-1 mx-1 mt-3"><?= $_SESSION['orc']->getPointsDeVie() ?> / <?= $_SESSION["pointsDeVieTotalOrc"] ?></p>
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <div class="perso-informations">
+                                                <div class="d-flex justify-content-center align-items-center">
+                                                    <img class="text-white" src="assets/img/magic.png" alt="assets/img/magic.png">
+                                                    <p class="ms-1 mx-1 mt-3"><?= $_SESSION['orc']->getPointsDeMana() ?></p>
+                                                </div>
+                                                <div class="d-flex justify-content-center align-items-center">
+                                                    <img class="text-white" src="assets/img/shield.png" alt="assets/img/shield.png">
+                                                    <p class="ms-1 mx-1 mt-3">0</p>
+                                                </div>
+                                                <div class="d-flex justify-content-center align-items-center">
+                                                    <img class="text-white" src="assets/img/sword.png" alt="assets/img/sword.png">
+                                                    <p class="ms-1 mx-1 mt-3"><?= $_SESSION['orc']->getDamageMin() ?> - <?= $_SESSION['orc']->getDamageMax() ?></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
         <?php } ?>
     </div>
     </div>
     <?php if (isset($_SESSION['modeJourNuit'])) { ?>
-        <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>
-            <div class="d-flex justify-content-center mt-2 fs-3">
-                <p class="text-white"><?= isset($errors['pasGuerrier']) ? $errors['pasGuerrier'] : '' ?></p>
-                <p class="text-white"><?= isset($errors['ouiGuerrier']) ? $errors['ouiGuerrier'] : '' ?></p>
-                <p class="text-white"><?= isset($errors['pasOrc']) ? $errors['pasOrc'] : '' ?></p>
-                <p class="text-white"><?= isset($errors['ouiOrc']) ? $errors['ouiOrc'] : '' ?></p>
-                <p class="text-white"><?= isset($errors['peutPasCommencer']) ? $errors['peutPasCommencer'] : '' ?></p>
-                <p class="text-white"><?= isset($errors['pasCommencerCombat']) ? $errors['pasCommencerCombat'] : '' ?></p>
-                <p class="text-white"><?= isset($_POST['commencer']) ?$_POST['commencer'] : '' ?></p>
-                <p class="text-white"><?= isset($_SESSION['resumeTour']) ? $_SESSION['resumeTour'] : '' ?></p>
-                <p class="text-white"><?= isset($_POST['resumeTour']) ? $_POST['resumeTour'] : '' ?></p>
-            </div>
-        <?php } else { ?>
-            <div class="d-flex justify-content-center mt-2 fs-3">
-                <p class="text-black"><?= isset($errors['pasGuerrier']) ? $errors['pasGuerrier'] : '' ?></p>
-                <p class="text-black"><?= isset($errors['ouiGuerrier']) ? $errors['ouiGuerrier'] : '' ?></p>
-                <p class="text-black"><?= isset($errors['pasOrc']) ? $errors['pasOrc'] : '' ?></p>
-                <p class="text-black"><?= isset($errors['ouiOrc']) ? $errors['ouiOrc'] : '' ?></p>
-                <p class="text-black"><?= isset($errors['peutPasCommencer']) ? $errors['peutPasCommencer'] : '' ?></p>
-                <p class="text-black"><?= isset($errors['pasCommencerCombat']) ? $errors['pasCommencerCombat'] : '' ?></p>
-                <p class="text-black"><?= isset($_POST['commencer']) ? $_POST['commencer'] : '' ?></p>
-                <p class="text-black"><?= isset($_SESSION['resumeTour']) ? $_SESSION['resumeTour'] : '' ?></p>
-                <p class="text-black"><?= isset($_POST['resumeTour']) ? $_POST['resumeTour'] : '' ?></p>
-            </div>
-        <?php } ?>
+                            <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>
+                                                    <div class="d-flex justify-content-center mt-2 fs-3">
+                                                        <p class="text-white"><?= isset($errors['pasGuerrier']) ? $errors['pasGuerrier'] : '' ?></p>
+                                                        <p class="text-white"><?= isset($errors['ouiGuerrier']) ? $errors['ouiGuerrier'] : '' ?></p>
+                                                        <p class="text-white"><?= isset($errors['pasOrc']) ? $errors['pasOrc'] : '' ?></p>
+                                                        <p class="text-white"><?= isset($errors['ouiOrc']) ? $errors['ouiOrc'] : '' ?></p>
+                                                        <p class="text-white"><?= isset($errors['peutPasCommencer']) ? $errors['peutPasCommencer'] : '' ?></p>
+                                                        <p class="text-white"><?= isset($errors['pasCommencerCombat']) ? $errors['pasCommencerCombat'] : '' ?></p>
+                                                        <p class="text-white"><?= isset($_POST['commencer']) ? $_POST['commencer'] : '' ?></p>
+                                                        <p class="text-white"><?= isset($_SESSION['resumeTour']) ? $_SESSION['resumeTour'] : '' ?></p>
+                                                        <p class="text-white"><?= isset($_POST['resumeTour']) ? $_POST['resumeTour'] : '' ?></p>
+                                                    </div>
+                            <?php } else { ?>
+                                                    <div class="d-flex justify-content-center mt-2 fs-3">
+                                                        <p class="text-black"><?= isset($errors['pasGuerrier']) ? $errors['pasGuerrier'] : '' ?></p>
+                                                        <p class="text-black"><?= isset($errors['ouiGuerrier']) ? $errors['ouiGuerrier'] : '' ?></p>
+                                                        <p class="text-black"><?= isset($errors['pasOrc']) ? $errors['pasOrc'] : '' ?></p>
+                                                        <p class="text-black"><?= isset($errors['ouiOrc']) ? $errors['ouiOrc'] : '' ?></p>
+                                                        <p class="text-black"><?= isset($errors['peutPasCommencer']) ? $errors['peutPasCommencer'] : '' ?></p>
+                                                        <p class="text-black"><?= isset($errors['pasCommencerCombat']) ? $errors['pasCommencerCombat'] : '' ?></p>
+                                                        <p class="text-black"><?= isset($_POST['commencer']) ? $_POST['commencer'] : '' ?></p>
+                                                        <p class="text-black"><?= isset($_SESSION['resumeTour']) ? $_SESSION['resumeTour'] : '' ?></p>
+                                                        <p class="text-black"><?= isset($_POST['resumeTour']) ? $_POST['resumeTour'] : '' ?></p>
+                                                    </div>
+                            <?php } ?>
     <?php } else { ?>
-        <div class="d-flex justify-content-center mt-2 fs-3">
-            <p class="text-black"><?= isset($errors['pasGuerrier']) ? $errors['pasGuerrier'] : '' ?></p>
-            <p class="text-black"><?= isset($errors['ouiGuerrier']) ? $errors['ouiGuerrier'] : '' ?></p>
-            <p class="text-black"><?= isset($errors['pasOrc']) ? $errors['pasOrc'] : '' ?></p>
-            <p class="text-black"><?= isset($errors['ouiOrc']) ? $errors['ouiOrc'] : '' ?></p>
-            <p class="text-black"><?= isset($errors['peutPasCommencer']) ? $errors['peutPasCommencer'] : '' ?></p>
-            <p class="text-black"><?= isset($errors['pasCommencerCombat']) ? $errors['pasCommencerCombat'] : '' ?></p>
-            <p class="text-black"><?= isset($_POST['commencer']) ? $_POST['commencer'] : '' ?></p>
-            <p class="text-black"><?= isset($_SESSION['resumeTour']) ? $_SESSION['resumeTour'] : '' ?></p>
-            <p class="text-black"><?= isset($_POST['resumeTour']) ? $_POST['resumeTour'] : '' ?></p>
-        </div>
+                            <div class="d-flex justify-content-center mt-2 fs-3">
+                                <p class="text-black"><?= isset($errors['pasGuerrier']) ? $errors['pasGuerrier'] : '' ?></p>
+                                <p class="text-black"><?= isset($errors['ouiGuerrier']) ? $errors['ouiGuerrier'] : '' ?></p>
+                                <p class="text-black"><?= isset($errors['pasOrc']) ? $errors['pasOrc'] : '' ?></p>
+                                <p class="text-black"><?= isset($errors['ouiOrc']) ? $errors['ouiOrc'] : '' ?></p>
+                                <p class="text-black"><?= isset($errors['peutPasCommencer']) ? $errors['peutPasCommencer'] : '' ?></p>
+                                <p class="text-black"><?= isset($errors['pasCommencerCombat']) ? $errors['pasCommencerCombat'] : '' ?></p>
+                                <p class="text-black"><?= isset($_POST['commencer']) ? $_POST['commencer'] : '' ?></p>
+                                <p class="text-black"><?= isset($_SESSION['resumeTour']) ? $_SESSION['resumeTour'] : '' ?></p>
+                                <p class="text-black"><?= isset($_POST['resumeTour']) ? $_POST['resumeTour'] : '' ?></p>
+                            </div>
     <?php } ?>
     <form action="" method="POST">
         <div class="d-flex justify-content-center">
             <?php if (isset($_SESSION['modeJourNuit'])) { ?>
-                <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>
-                    <input class="btn btns-nuit mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier" <?= isset($_SESSION['guerrier']) ? 'hidden' : '' ?>>
-                    <input class="btn btns-nuit mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="orc" id="orc" value="Créer Orc" <?= isset($_SESSION['orc']) ? 'hidden' : '' ?>>
-                    <input class="btn btns-nuit mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?" <?= isset($_SESSION['commencer']) ? 'hidden' : '' ?>>
-                    <input class="btn btns-nuit mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="combat" id="combat" value="Combat !" <?= isset($_SESSION['guerrier']) && isset($_SESSION['orc']) ? ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0 ? 'hidden' : '') : '' ?>>
-                    <input class="btn btns-nuit mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="reset" id="reset" value="Reset">
-                <?php } else { ?>
-                    <input class="btn btns-jour mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier" <?= isset($_SESSION['guerrier']) ? 'hidden' : '' ?>>
-                    <input class="btn btns-jour mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="orc" id="orc" value="Créer Orc" <?= isset($_SESSION['orc']) ? 'hidden' : '' ?>>
-                    <input class="btn btns-jour mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?" <?= isset($_SESSION['commencer']) ? 'hidden' : '' ?>>
-                    <input class="btn btns-jour mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="combat" id="combat" value="Combat !" <?= isset($_SESSION['guerrier']) && isset($_SESSION['orc']) ? ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0 ? 'hidden' : '') : '' ?>>
-                    <input class="btn btns-jour mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="reset" id="reset" value="Reset">
-                <?php } ?>
+                                    <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>
+                                                            <input class="btn btns-nuit mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier" <?= isset($_SESSION['guerrier']) ? 'hidden' : '' ?>>
+                                                            <input class="btn btns-nuit mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="orc" id="orc" value="Créer Orc" <?= isset($_SESSION['orc']) ? 'hidden' : '' ?>>
+                                                            <input class="btn btns-nuit mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?" <?= isset($_SESSION['commencer']) ? 'hidden' : '' ?>>
+                                                            <input class="btn btns-nuit mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="combat" id="combat" value="Combat !" <?= isset($_SESSION['guerrier']) && isset($_SESSION['orc']) ? ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0 ? 'hidden' : '') : '' ?>>
+                                                            <input class="btn btns-nuit mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="reset" id="reset" value="Reset">
+                                    <?php } else { ?>
+                                                            <input class="btn btns-jour mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier" <?= isset($_SESSION['guerrier']) ? 'hidden' : '' ?>>
+                                                            <input class="btn btns-jour mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="orc" id="orc" value="Créer Orc" <?= isset($_SESSION['orc']) ? 'hidden' : '' ?>>
+                                                            <input class="btn btns-jour mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?" <?= isset($_SESSION['commencer']) ? 'hidden' : '' ?>>
+                                                            <input class="btn btns-jour mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="combat" id="combat" value="Combat !" <?= isset($_SESSION['guerrier']) && isset($_SESSION['orc']) ? ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0 ? 'hidden' : '') : '' ?>>
+                                                            <input class="btn btns-jour mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="reset" id="reset" value="Reset">
+                                    <?php } ?>
             <?php } else { ?>
-                <input class="btn btns-jour mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier" <?= isset($_SESSION['guerrier']) ? 'hidden' : '' ?>>
-                <input class="btn btns-jour mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="orc" id="orc" value="Créer Orc" <?= isset($_SESSION['orc']) ? 'hidden' : '' ?>>
-                <input class="btn btns-jour mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?" <?= isset($_SESSION['commencer']) ? 'hidden' : '' ?>>
-                <input class="btn btns-jour mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="combat" id="combat" value="Combat !" <?= isset($_SESSION['guerrier']) && isset($_SESSION['orc']) ? ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0 ? 'hidden' : '') : '' ?>>
-                <input class="btn btns-jour mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="reset" id="reset" value="Reset">
+                                    <input class="btn btns-jour mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier" <?= isset($_SESSION['guerrier']) ? 'hidden' : '' ?>>
+                                    <input class="btn btns-jour mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="orc" id="orc" value="Créer Orc" <?= isset($_SESSION['orc']) ? 'hidden' : '' ?>>
+                                    <input class="btn btns-jour mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?" <?= isset($_SESSION['commencer']) ? 'hidden' : '' ?>>
+                                    <input class="btn btns-jour mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="combat" id="combat" value="Combat !" <?= isset($_SESSION['guerrier']) && isset($_SESSION['orc']) ? ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0 ? 'hidden' : '') : '' ?>>
+                                    <input class="btn btns-jour mx-3 ms-3 mt-1 mb-3 text-white" type="submit" name="reset" id="reset" value="Reset">
             <?php } ?>
         </div>
     </form>
 
     <script>
         // Ajouter un événement de clic au bouton
-        document.getElementById('commencer').addEventListener('submit', function (e) {
-    e.preventDefault(); // Empêche le rechargement de la page
+        // document.getElementById('commencer').addEventListener('submit', function (e) {
+        //     // Empêche le rechargement de la page
+        //     e.preventDefault();
 
-    // Requête AJAX
-    fetch('playMusic.php', {
-        method: 'POST'
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const audioPlayer = document.getElementById('audioPlayer');
-                const audioSource = document.getElementById('audioSource');
-                audioSource.src = data.music_url; // URL de la musique reçue
-                audioPlayer.style.display = 'block'; // Affiche le lecteur audio
-                audioPlayer.load(); // Recharge l'audio
-                audioPlayer.play(); // Joue la musique
-            } else {
-                alert('Erreur : ' + data.message);
-            }
-        })
-        .catch(error => console.error('Erreur AJAX :', error));
-});
+        //     // Requête AJAX
+        //     fetch('playMusic.php', {
+        //         method: 'POST'
+        //     })
+        //         .then(response => response.json())
+        //         .then(data => {
+
+        //             // Si les données sont chargées, alors on fait ça
+        //             if (data.success) {
+        //                 const audioPlayer = document.getElementById('audioPlayer');
+        //                 const audioSource = document.getElementById('audioSource');
+                        
+        //                 // URL de la musique reçue
+        //                 audioSource.src = data.music_url;
+
+        //                 // Recharge l'audio
+        //                 audioPlayer.load();
+                        
+        //                 // Joue la musique
+        //                 audioPlayer.play();
+        //             } else {
+        //                 alert('Erreur : ' + data.message);
+        //             }
+        //         })
+        //         .catch(error => console.error('Erreur AJAX :', error));
+        // });
     </script>
 </body>
 
