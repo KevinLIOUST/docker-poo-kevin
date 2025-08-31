@@ -146,10 +146,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    var_dump($errors);
+    // var_dump($errors);
 }
-var_dump($_POST);
-var_dump($_SESSION);
+// var_dump($_POST);
+// var_dump($_SESSION);
 
 // $_SESSION["guerrier"]->getDamage(800);
 // var_dump($_SESSION["guerrier"]);
@@ -217,25 +217,25 @@ var_dump($_SESSION);
             <div class="d-block fs-3 overlay">
                 <p class="text-center">Guerrier</p>
                 <div class="d-flex justify-content-center mt-5">
-                    <img src="assets/img/Chibi_Guerrier_6.png" alt="assets/img/Chibi_Guerrier_6.png">
+                    <img class="taille-img-perso" src="assets/img/Chibi_Guerrier_6.png" alt="assets/img/Chibi_Guerrier_6.png">
                 </div>
                 <div class="d-flex justify-content-center align-items-center">
-                    <img class="text-white" src="assets/img/heart_3.png" alt="assets/img/heart_3.png">
-                    <p class="ms-3 mx-3 mt-3"><?= $_SESSION['guerrier']->getPointsDeVie() ?> / <?= $_SESSION["pointsDeVieTotalGuerrier"] ?></p>
+                    <img class="text-white" src="assets/img/heart.png" alt="assets/img/heart.png">
+                    <p class="ms-1 mx-1 mt-3"><?= $_SESSION['guerrier']->getPointsDeVie() ?> / <?= $_SESSION["pointsDeVieTotalGuerrier"] ?></p>
                 </div>
-                <div class="d-flex justify-content-center mt-3">
-                    <div class="perso-informations mt-3">
-                        <div class="d-flex justify-content-center align-items-center px-5 ps-5">
-                            <img class="text-white" src="assets/img/magic_2.png" alt="assets/img/magic_2.png">
-                            <p class="ms-3 mx-3 mt-3"><?= $_SESSION['guerrier']->getPointsDeMana() ?></p>
+                <div class="d-flex justify-content-center">
+                    <div class="perso-informations">
+                        <div class="d-flex justify-content-center align-items-center px-2 ps-2">
+                            <img class="text-white" src="assets/img/magic.png" alt="assets/img/magic.png">
+                            <p class="ms-1 mx-1 mt-3"><?= $_SESSION['guerrier']->getPointsDeMana() ?></p>
                         </div>
-                        <div class="d-flex justify-content-center align-items-center px-5 ps-5">
-                            <img class="text-white" src="assets/img/shield_2.png" alt="assets/img/shield_2.png">
-                            <p class="ms-3 mx-3 mt-3"><?= $_SESSION['guerrier']->getDefenceBouclier() ?></p>
+                        <div class="d-flex justify-content-center align-items-center px-2 ps-2">
+                            <img class="text-white" src="assets/img/shield.png" alt="assets/img/shield.png">
+                            <p class="ms-1 mx-1 mt-3"><?= $_SESSION['guerrier']->getDefenceBouclier() ?></p>
                         </div>
-                        <div class="d-flex justify-content-center align-items-center px-5 ps-5">
-                            <img class="text-white" src="assets/img/sword_2.png" alt="assets/img/sword_2.png">
-                            <p class="ms-3 mx-3 mt-3"><?= $_SESSION['guerrier']->getDegatsArme() ?></p>
+                        <div class="d-flex justify-content-center align-items-center px-2 ps-2">
+                            <img class="text-white" src="assets/img/sword.png" alt="assets/img/sword.png">
+                            <p class="ms-1 mx-1 mt-3"><?= $_SESSION['guerrier']->getDegatsArme() ?></p>
                         </div>
                     </div>
                 </div>
@@ -246,25 +246,25 @@ var_dump($_SESSION);
                 <div class="d-block fs-3 overlay">
                     <p class="text-center">Orc</p>
                     <div class="d-flex justify-content-center mt-5">
-                        <img src="assets/img/Chibi_Orc_2.png" alt="assets/img/Chibi_Orc_2.png">
+                        <img class="taille-img-perso" src="assets/img/Chibi_Orc_2.png" alt="assets/img/Chibi_Orc_2.png">
                     </div>
                     <div class="d-flex justify-content-center align-items-center">
-                        <img class="text-white" src="assets/img/heart_3.png" alt="assets/img/heart_3.png">
-                        <p class="ms-3 mx-3 mt-3"><?= $_SESSION['orc']->getPointsDeVie() ?> / <?= $_SESSION["pointsDeVieTotalOrc"] ?></p>
+                        <img class="text-white" src="assets/img/heart.png" alt="assets/img/heart.png">
+                        <p class="ms-1 mx-1 mt-3"><?= $_SESSION['orc']->getPointsDeVie() ?> / <?= $_SESSION["pointsDeVieTotalOrc"] ?></p>
                     </div>
-                    <div class="d-flex justify-content-center mt-3">
-                        <div class="perso-informations mt-3">
-                            <div class="d-flex justify-content-center align-items-center px-5 ps-5">
-                                <img class="text-white" src="assets/img/magic_2.png" alt="assets/img/magic_2.png">
-                                <p class="ms-3 mx-3 mt-3"><?= $_SESSION['orc']->getPointsDeMana() ?></p>
+                    <div class="d-flex justify-content-center">
+                        <div class="perso-informations">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <img class="text-white" src="assets/img/magic.png" alt="assets/img/magic.png">
+                                <p class="ms-1 mx-1 mt-3"><?= $_SESSION['orc']->getPointsDeMana() ?></p>
                             </div>
-                            <div class="d-flex justify-content-center align-items-center px-5 ps-5">
-                                <img class="text-white" src="assets/img/shield_2.png" alt="assets/img/shield_2.png">
-                                <p class="ms-3 mx-3 mt-3">0</p>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <img class="text-white" src="assets/img/shield.png" alt="assets/img/shield.png">
+                                <p class="ms-1 mx-1 mt-3">0</p>
                             </div>
-                            <div class="d-flex justify-content-center align-items-center px-5 ps-5">
-                                <img class="text-white" src="assets/img/sword_2.png" alt="assets/img/sword_2.png">
-                                <p class="ms-3 mx-3 mt-3"><?= $_SESSION['orc']->getDamageMin() ?> - <?= $_SESSION['orc']->getDamageMax() ?></p>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <img class="text-white" src="assets/img/sword.png" alt="assets/img/sword.png">
+                                <p class="ms-1 mx-1 mt-3"><?= $_SESSION['orc']->getDamageMin() ?> - <?= $_SESSION['orc']->getDamageMax() ?></p>
                             </div>
                         </div>
                     </div>
@@ -315,23 +315,23 @@ var_dump($_SESSION);
         <div class="d-flex justify-content-center">
             <?php if (isset($_SESSION['modeJourNuit'])) { ?>
                 <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>
-                    <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier" <?= isset($_SESSION['guerrier']) ? 'disabled' : '' ?>>
-                    <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="orc" id="orc" value="Créer Orc" <?= isset($_SESSION['orc']) ? 'disabled' : '' ?>>
-                    <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?" <?= isset($_SESSION['commencer']) ? 'disabled' : '' ?>>
-                    <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="combat" id="combat" value="Combat !" <?= isset($_SESSION['guerrier']) && isset($_SESSION['orc']) ? ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0 ? 'disabled' : '') : '' ?>>
+                    <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier" <?= isset($_SESSION['guerrier']) ? 'hidden' : '' ?>>
+                    <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="orc" id="orc" value="Créer Orc" <?= isset($_SESSION['orc']) ? 'hidden' : '' ?>>
+                    <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?" <?= isset($_SESSION['commencer']) ? 'hidden' : '' ?>>
+                    <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="combat" id="combat" value="Combat !" <?= isset($_SESSION['guerrier']) && isset($_SESSION['orc']) ? ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0 ? 'hidden' : '') : '' ?>>
                     <input class="btn btns-nuit mx-3 ms-3 mt-5 text-white" type="submit" name="reset" id="reset" value="Reset">
                 <?php } else { ?>
-                    <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier" <?= isset($_SESSION['guerrier']) ? 'disabled' : '' ?>>
-                    <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="orc" id="orc" value="Créer Orc" <?= isset($_SESSION['orc']) ? 'disabled' : '' ?>>
-                    <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?" <?= isset($_SESSION['commencer']) ? 'disabled' : '' ?>>
-                    <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="combat" id="combat" value="Combat !" <?= isset($_SESSION['guerrier']) && isset($_SESSION['orc']) ? ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0 ? 'disabled' : '') : '' ?>>
+                    <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier" <?= isset($_SESSION['guerrier']) ? 'hidden' : '' ?>>
+                    <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="orc" id="orc" value="Créer Orc" <?= isset($_SESSION['orc']) ? 'hidden' : '' ?>>
+                    <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?" <?= isset($_SESSION['commencer']) ? 'hidden' : '' ?>>
+                    <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="combat" id="combat" value="Combat !" <?= isset($_SESSION['guerrier']) && isset($_SESSION['orc']) ? ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0 ? 'hidden' : '') : '' ?>>
                     <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="reset" id="reset" value="Reset">
                 <?php } ?>
             <?php } else { ?>
-                <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier" <?= isset($_SESSION['guerrier']) ? 'disabled' : '' ?>>
-                <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="orc" id="orc" value="Créer Orc" <?= isset($_SESSION['orc']) ? 'disabled' : '' ?>>
-                <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?" <?= isset($_SESSION['commencer']) ? 'disabled' : '' ?>>
-                <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="combat" id="combat" value="Combat !" <?= isset($_SESSION['guerrier']) && isset($_SESSION['orc']) ? ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0 ? 'disabled' : '') : '' ?>>
+                <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="guerrier" id="guerrier" value="Créer Guerrier" <?= isset($_SESSION['guerrier']) ? 'hidden' : '' ?>>
+                <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="orc" id="orc" value="Créer Orc" <?= isset($_SESSION['orc']) ? 'hidden' : '' ?>>
+                <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="commencer" id="commencer" value="Qui commence ?" <?= isset($_SESSION['commencer']) ? 'hidden' : '' ?>>
+                <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="combat" id="combat" value="Combat !" <?= isset($_SESSION['guerrier']) && isset($_SESSION['orc']) ? ($_SESSION['guerrier']->getPointsDeVie() <= 0 || $_SESSION['orc']->getPointsDeVie() <= 0 ? 'hidden' : '') : '' ?>>
                 <input class="btn btns-jour mx-3 ms-3 mt-5 text-white" type="submit" name="reset" id="reset" value="Reset">
             <?php } ?>
         </div>
