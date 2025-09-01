@@ -213,76 +213,76 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <?php } ?>
                 <?php } ?>btns-jour" type="submit" name="modeJourNuit" id="modeJourNuit"
                     <?php if (isset($_SESSION['modeJourNuit'])) { ?>
-                        <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>
-                            value='Mode Jour' ;
-                        <?php } else { ?>
-                            value='Mode Nuit' ;
-                        <?php } ?>
+                    <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>
+                    value='Mode Jour' ;
+                    <?php } else { ?>
+                    value='Mode Nuit' ;
+                    <?php } ?>
                     <?php } ?>value="Mode Nuit">
             </form>
         </div>
     </div>
     <div class="d-flex justify-content-center">
         <div class="div-img-fond-combat">
-        <?php if (isset($_SESSION['guerrier'])) { ?>
-            <div class="d-block fs-3 overlay">
-                <p class="text-center">Guerrier</p>
-                <div class="d-flex justify-content-center mt-5">
-                    <img class="taille-img-perso" src="assets/img/Chibi_Guerrier_6.png" alt="assets/img/Chibi_Guerrier_6.png">
-                </div>
-                <div class="d-flex justify-content-center align-items-center">
-                    <img class="text-white" src="assets/img/heart.png" alt="assets/img/heart.png">
-                    <p class="ms-1 mx-1 mt-3"><?= $_SESSION['guerrier']->getPointsDeVie() ?> / <?= $_SESSION["pointsDeVieTotalGuerrier"] ?></p>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <div class="perso-informations">
-                        <div class="d-flex justify-content-center align-items-center px-2 ps-2">
-                            <img class="text-white" src="assets/img/magic.png" alt="assets/img/magic.png">
-                            <p class="ms-1 mx-1 mt-3"><?= $_SESSION['guerrier']->getPointsDeMana() ?></p>
-                        </div>
-                        <div class="d-flex justify-content-center align-items-center px-2 ps-2">
-                            <img class="text-white" src="assets/img/shield.png" alt="assets/img/shield.png">
-                            <p class="ms-1 mx-1 mt-3"><?= $_SESSION['guerrier']->getDefenceBouclier() ?></p>
-                        </div>
-                        <div class="d-flex justify-content-center align-items-center px-2 ps-2">
-                            <img class="text-white" src="assets/img/sword.png" alt="assets/img/sword.png">
-                            <p class="ms-1 mx-1 mt-3"><?= $_SESSION['guerrier']->getDegatsArme() ?></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php } ?>
-        <?php if (isset($_SESSION['orc'])) { ?>
-            <div class="d-flex justify-content-center fs-1 overlay">
+            <?php if (isset($_SESSION['guerrier'])) { ?>
                 <div class="d-block fs-3 overlay">
-                    <p class="text-center">Orc</p>
+                    <p class="text-center">Guerrier</p>
                     <div class="d-flex justify-content-center mt-5">
-                        <img class="taille-img-perso" src="assets/img/Chibi_Orc_2.png" alt="assets/img/Chibi_Orc_2.png">
+                        <img class="taille-img-perso" src="assets/img/Chibi_Guerrier_6.png" alt="assets/img/Chibi_Guerrier_6.png">
                     </div>
                     <div class="d-flex justify-content-center align-items-center">
                         <img class="text-white" src="assets/img/heart.png" alt="assets/img/heart.png">
-                        <p class="ms-1 mx-1 mt-3"><?= $_SESSION['orc']->getPointsDeVie() ?> / <?= $_SESSION["pointsDeVieTotalOrc"] ?></p>
+                        <p class="ms-1 mx-1 mt-3"><?= $_SESSION['guerrier']->getPointsDeVie() ?> / <?= $_SESSION["pointsDeVieTotalGuerrier"] ?></p>
                     </div>
                     <div class="d-flex justify-content-center">
                         <div class="perso-informations">
-                            <div class="d-flex justify-content-center align-items-center">
+                            <div class="d-flex justify-content-center align-items-center px-2 ps-2">
                                 <img class="text-white" src="assets/img/magic.png" alt="assets/img/magic.png">
-                                <p class="ms-1 mx-1 mt-3"><?= $_SESSION['orc']->getPointsDeMana() ?></p>
+                                <p class="ms-1 mx-1 mt-3"><?= $_SESSION['guerrier']->getPointsDeMana() ?></p>
                             </div>
-                            <div class="d-flex justify-content-center align-items-center">
+                            <div class="d-flex justify-content-center align-items-center px-2 ps-2">
                                 <img class="text-white" src="assets/img/shield.png" alt="assets/img/shield.png">
-                                <p class="ms-1 mx-1 mt-3">0</p>
+                                <p class="ms-1 mx-1 mt-3"><?= $_SESSION['guerrier']->getDefenceBouclier() ?></p>
                             </div>
-                            <div class="d-flex justify-content-center align-items-center">
+                            <div class="d-flex justify-content-center align-items-center px-2 ps-2">
                                 <img class="text-white" src="assets/img/sword.png" alt="assets/img/sword.png">
-                                <p class="ms-1 mx-1 mt-3"><?= $_SESSION['orc']->getDamageMin() ?> - <?= $_SESSION['orc']->getDamageMax() ?></p>
+                                <p class="ms-1 mx-1 mt-3"><?= $_SESSION['guerrier']->getDegatsArme() ?></p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        <?php } ?>
-    </div>
+            <?php } ?>
+            <?php if (isset($_SESSION['orc'])) { ?>
+                <div class="d-flex justify-content-center fs-1 overlay">
+                    <div class="d-block fs-3 overlay">
+                        <p class="text-center">Orc</p>
+                        <div class="d-flex justify-content-center mt-5">
+                            <img class="taille-img-perso" src="assets/img/Chibi_Orc_2.png" alt="assets/img/Chibi_Orc_2.png">
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <img class="text-white" src="assets/img/heart.png" alt="assets/img/heart.png">
+                            <p class="ms-1 mx-1 mt-3"><?= $_SESSION['orc']->getPointsDeVie() ?> / <?= $_SESSION["pointsDeVieTotalOrc"] ?></p>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <div class="perso-informations">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <img class="text-white" src="assets/img/magic.png" alt="assets/img/magic.png">
+                                    <p class="ms-1 mx-1 mt-3"><?= $_SESSION['orc']->getPointsDeMana() ?></p>
+                                </div>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <img class="text-white" src="assets/img/shield.png" alt="assets/img/shield.png">
+                                    <p class="ms-1 mx-1 mt-3">0</p>
+                                </div>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <img class="text-white" src="assets/img/sword.png" alt="assets/img/sword.png">
+                                    <p class="ms-1 mx-1 mt-3"><?= $_SESSION['orc']->getDamageMin() ?> - <?= $_SESSION['orc']->getDamageMax() ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
     </div>
     <?php if (isset($_SESSION['modeJourNuit'])) { ?>
         <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>
@@ -366,22 +366,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         //             if (data.success) {
         //                 const audioPlayer = document.getElementById('audioPlayer');
         //                 const audioSource = document.getElementById('audioSource');
-                        
+
         //                 // URL de la musique reçue
         //                 audioSource.src = data.music_url;
 
         //                 // Recharge l'audio
-                //                 audioPlayer.load();
+        //                 audioPlayer.load();
 
-                //                 // Joue la musique
-                //                 audioPlayer.play();
-                //             } else {
-                //                 alert( 'Erreur : ' + data.message );
-                //             }
-                //         }
-            //         .catch( error => console.error( 'Erreur AJAX :', error ) );
-            // }
-        </script>
-        </body>
+        //                 // Joue la musique
+        //                 audioPlayer.play();
+        //             } else {
+        //                 alert( 'Erreur : ' + data.message );
+        //             }
+        //         }
+        //         .catch( error => console.error( 'Erreur AJAX :', error ) );
+        // }
+    </script>
+</body>
 
-        </html>
+</html>
