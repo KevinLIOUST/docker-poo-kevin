@@ -29,7 +29,7 @@ function quiVaGagner()
             $quiVaGagner = ' Egalité ! :)';
         }
 
-        return ' Le Combat Légendaire est terminé ! :) ' . $quiVaGagner;
+        return "\n" .' Le Combat Légendaire est terminé ! :) '. "\n" . $quiVaGagner;
     }
 }
 
@@ -43,12 +43,12 @@ function lancerLeDe()
     if ($nbAleatoireGuerrier > $nbAleatoireOrc) {
 
         $_SESSION['commencer'] = 'guerrier';
-        $quiCommence = 'Le Guerrier va commencer !';
+        $quiCommence = 'Le Guerrier va commencer ! :)';
         return $quiCommence;
     } elseif ($nbAleatoireGuerrier < $nbAleatoireOrc) {
 
         $_SESSION['commencer'] = 'orc';
-        $quiCommence = "L'Orc va commencer !";
+        $quiCommence = "L'Orc va commencer ! :)";
         return $quiCommence;
     } elseif ($nbAleatoireGuerrier == $nbAleatoireOrc) {
 
@@ -60,11 +60,11 @@ function lancerLeDe()
             if ($nbAleatoireGuerrier > $nbAleatoireOrc) {
 
                 $_SESSION['commencer'] = 'guerrier';
-                $quiCommence = 'Le Guerrier va commencer !';
+                $quiCommence = 'Le Guerrier va commencer ! :)';
                 return $quiCommence;
             } elseif ($nbAleatoireGuerrier < $nbAleatoireOrc) {
                 $_SESSION['commencer'] = 'orc';
-                $quiCommence = "L'Orc va commencer !";
+                $quiCommence = "L'Orc va commencer ! :)";
                 return $quiCommence;
             }
         }
@@ -76,13 +76,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $errors = [];
 
+    if (!isset($_SESSION['historiqueCombat'])) {
+        $_SESSION['historiqueCombat'] = [];
+    }
+
     if (isset($_POST['guerrier'])) {
 
         if (!isset($_SESSION['guerrier'])) {
 
-            $errors['pasGuerrier'] = 'Il y a pas de Guerrier dans le jeu, il sera crée maintenant';
             $_SESSION['guerrier'] = new Guerrier(2000, 500, 'Ultima', 250, 'Bouclier Ultime', 200, 'assets/img/Chibi_Guerrier_6.png');
             $_SESSION['pointsDeVieTotalGuerrier'] = $_SESSION['guerrier']->getPointsDeVie();
+            $errors['pasGuerrier'] = 'Création du Guerrier terminée ! :)';
+            $_SESSION['historiqueCombat'][] = $errors['pasGuerrier'];
         } else {
             $errors['ouiGuerrier'] = 'Le Guerrier existe déjà ! :) Pas besoin de le recréer ! :)';
         }
@@ -90,9 +95,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (!isset($_SESSION['orc'])) {
 
-            $errors['pasOrc'] = "Il y a pas d'Orc dans le jeu, il sera crée maintenant";
             $_SESSION['orc'] = new Orc(1500, 200, 100, 400, 'assets/img/Chibi_Orc_2.png');
             $_SESSION['pointsDeVieTotalOrc'] = $_SESSION['orc']->getPointsDeVie();
+            $errors['pasOrc'] = 'Création de l\'orc terminée ! :)';
+            $_SESSION['historiqueCombat'][] = $errors['pasOrc'];
         } else {
             $errors['ouiOrc'] = "L'orc existe déjà ! :) Pas besoin de le recréer ! :)";
         }
@@ -108,11 +114,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $quiCommence = lancerLeDe();
             $_POST['commencer'] = $quiCommence;
+            $_SESSION['historiqueCombat'][] = $_POST['commencer'];
         }
     } elseif (isset($_POST['modeJourNuit'])) {
         $_SESSION['modeJourNuit'] = $_POST['modeJourNuit'];
     } elseif (isset($_POST['reset'])) {
         $_POST['resumeTour'] = 'Vous avez reset la partie ! Vous pouvez maintenant en faire une nouvelle ! :)';
+        $_SESSION['historiqueCombat'][] = $_POST['resumeTour'];
+
+        // Nom du fichier où l'historique sera enregistré
+        $fichier = 'historiqueCombat.txt';
+
+        $historique = '';
+
+        for ($i = 0; $i < count($_SESSION['historiqueCombat']); $i++) {
+            $historique .= $_SESSION['historiqueCombat'][$i] . "\n";
+        }
+
+        // Ouvrir le fichier en mode ajout (a)
+        $fichierOuvert = fopen($fichier, 'a');
+
+        // Vérifier si le fichier s'est bien ouvert
+        if ($fichierOuvert) {
+
+            // Écrire les données dans le fichier
+            fwrite($fichierOuvert, "Résultats du combat : \n\n\n");
+            fwrite($fichierOuvert, $historique);
+            fwrite($fichierOuvert, "\n\n");
+            fwrite($fichierOuvert, "Enregistrement terminé avec succès ! :)");
+            fwrite($fichierOuvert, "\n\n\n\n");
+
+            // Fermer le fichier
+            fclose($fichierOuvert);
+
+            $_SESSION['historiqueCombat'][] = "Historique enregistré avec succès !";
+        } else {
+            $_SESSION['historiqueCombat'][] = "Erreur : Impossible d'ouvrir le fichier.";
+        }
+
         session_unset();
         session_destroy();
     }
@@ -122,6 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['combat'])) {
         if (!isset($_SESSION['guerrier']) || !isset($_SESSION['orc']) || !isset($_SESSION['commencer'])) {
             $errors['pasCommencerCombat'] = 'Le combat peut pas commencer sans savoir qui commence, ou s\'il manque quelqu\'un !';
+            $_SESSION['historiqueCombat'][] = $errors['pasCommencerCombat'];
         } else {
             // Si les points de vie de l'Orc ou du Guerrier sont plus grands que 0, on continue le combat
             if ($_SESSION['guerrier']->getPointsDeVie() > 0 || $_SESSION['orc']->getPointsDeVie() > 0) {
@@ -131,12 +171,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     // Le Guerrier va attaquer l'Orc
                     $stringFrappe = "Le Guerrier attaque avec une frappe de " . $_SESSION['guerrier']->attack() . " ! ";
                     $_SESSION['orc']->setPointsDeVie($_SESSION['orc']->getPointsDeVie() - $_SESSION['guerrier']->attack());
-                    $stringPointsDeVie = "L'Orc a perdu " . $_SESSION['guerrier']->attack() . " points de vie ! : ) ' . ' Il lui reste " . $_SESSION['orc']->getPointsDeVie() . " points de vie ! : )";
+                    $stringPointsDeVie = "L'Orc a perdu " . $_SESSION['guerrier']->attack() . " points de vie ! : ) Il lui reste " . $_SESSION['orc']->getPointsDeVie() . " points de vie ! : )";
                     $_SESSION['commencer'] = "orc";
                     $quiCommence = $_SESSION["commencer"];
                     $quiVaGagner = quiVaGagner();
                     $resumeTour = $stringFrappe . $stringPointsDeVie . $quiVaGagner;
                     $_SESSION['resumeTour'] = $resumeTour;
+                    $_SESSION['historiqueCombat'][] = $_SESSION['resumeTour'];
                 } else {
                     // L'Orc va attaquer le Guerrier
                     $attackAleatoire = $_SESSION['orc']->attack();
@@ -148,15 +189,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $quiVaGagner = quiVaGagner();
                     $resumeTour = $stringFrappe . $stringPointsDeVie . $quiVaGagner;
                     $_SESSION['resumeTour'] = $resumeTour;
+                    $_SESSION['historiqueCombat'][] = $_SESSION['resumeTour'];
                 }
             }
         }
     }
 
-    // var_dump($errors);
+    var_dump($errors);
 }
-// var_dump($_POST);
-// var_dump($_SESSION);
+var_dump($_POST);
+var_dump($_SESSION);
 
 // $_SESSION["guerrier"]->getDamage(800);
 // var_dump($_SESSION["guerrier"]);
@@ -213,11 +255,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <?php } ?>
                 <?php } ?>btns-jour" type="submit" name="modeJourNuit" id="modeJourNuit"
                     <?php if (isset($_SESSION['modeJourNuit'])) { ?>
-                    <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>
-                    value='Mode Jour' ;
-                    <?php } else { ?>
-                    value='Mode Nuit' ;
-                    <?php } ?>
+                        <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>
+                            value='Mode Jour' ;
+                        <?php } else { ?>
+                            value='Mode Nuit' ;
+                        <?php } ?>
                     <?php } ?>value="Mode Nuit">
             </form>
         </div>
@@ -324,6 +366,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     <?php } ?>
     <form action="" method="POST">
+        <div class="d-flex justify-content-center">
+            <textarea class="fs-2 mb-3 mt-3
+                <?php if (isset($_SESSION['modeJourNuit'])) { ?>
+                    <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>
+                        taille-textarea-combat-nuit
+                    <?php } else { ?>
+                        taille-textarea-combat-jour
+                    <?php } ?>
+                <?php } ?>taille-textarea-combat-jour" rows="100" cols="200" readonly>
+                <?php if (isset($_SESSION['historiqueCombat'])) { ?>
+                    <?php foreach ($_SESSION['historiqueCombat'] as $value) { ?>
+                        <?= htmlspecialchars($value . "\n") ?>
+                    <?php } ?>
+                <?php } ?>
+            </textarea>
+        </div>
         <div class="d-flex justify-content-center">
             <?php if (isset($_SESSION['modeJourNuit'])) { ?>
                 <?php if ($_SESSION['modeJourNuit'] == 'Mode Nuit') { ?>

@@ -1,0 +1,49 @@
+Résultats du combat : 
+
+
+Création du Guerrier terminée ! :)
+Création de l'orc terminée ! :)
+L'Orc va commencer ! :)
+Vous avez reset la partie ! Vous pouvez maintenant en faire une nouvelle ! :)
+
+
+Enregistrement terminé avec succès ! :)
+
+
+
+Résultats du combat : 
+
+
+Création du Guerrier terminée ! :)
+Création de l'orc terminée ! :)
+Vous avez reset la partie ! Vous pouvez maintenant en faire une nouvelle ! :)
+
+
+Enregistrement terminé avec succès ! :)
+
+
+
+Résultats du combat : 
+
+
+Vous avez reset la partie ! Vous pouvez maintenant en faire une nouvelle ! :)
+
+
+Enregistrement terminé avec succès ! :)
+
+
+
+Résultats du combat : 
+
+
+Création du Guerrier terminée ! :)
+Création de l'orc terminée ! :)
+Le Guerrier va commencer ! :)
+Le Guerrier attaque avec une frappe de 250 ! L'Orc a perdu 250 points de vie ! : ) Il lui reste 1250 points de vie ! : )
+Vous avez reset la partie ! Vous pouvez maintenant en faire une nouvelle ! :)
+
+
+Enregistrement terminé avec succès ! :)
+
+
+
